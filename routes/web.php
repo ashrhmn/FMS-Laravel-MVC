@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/' ,[PageController::class,'index'])->name('index');
+Route::get('/login' ,[PageController::class,'login'])->name('login');
+Route::get('/register' ,[PageController::class,'registation'])->name('register');
+Route::get('/logout' ,[PageController::class,'logout'])->name('logout');
+
+Route::post('/register',[PageController::class,'registersubmit'])->name('register.submit');
+
+Route::post('/login',[PageController::class,'loginsubmit'])->name('login.submit');
+
