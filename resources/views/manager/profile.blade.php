@@ -13,7 +13,7 @@
 
 
 <a href="{{route('manager.editProfile',['id'=>encrypt($user->id)])}}" class="btn btn-success">Edit Profile</a>
-<a href="" class="btn btn-success">Change Password</a>
+<a href="{{route('manager.changepass',['id'=>encrypt($user->id)])}}" class="btn btn-success">Change Password</a>
 
 
 @endsection

@@ -30,11 +30,13 @@ Route::post('/login',[PageController::class,'loginsubmit'])->name('login.submit'
 //Manager route Start
 Route::get('/manager',[ManagerController::class,'home'])->name('manager.home');
 Route::get('/manager/profile',[ManagerController::class,'profile'])->name('manager.profile');
-Route::get('/manager/editProfile/{id?}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
+Route::get('/manager/editProfile/{id}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
+Route::get('/manager/changepass/{id}',[ManagerController::class,'changepass'])->name('manager.changepass');
 
 Route::post('/manager/editProfile',[ManagerController::class,'editProfileSubmit'])->name('manager.editProfileSubmit');
+Route::post('/manager/changepass',[ManagerController::class,'changepassSubmit'])->name('manager.changepassSubmit');
 
-//Manager route End
+//Manager route End 
 
 
 
