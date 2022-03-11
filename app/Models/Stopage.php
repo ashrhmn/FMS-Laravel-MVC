@@ -17,10 +17,16 @@ class Stopage extends Model
     public function city(){
         return $this->belongsTo(City::class,'city_id');  
     }
-    public function purchasedtickets(){
-        return $this->hasMany(PurchasedTicket::class,'from_stopage_id','to_stopage_id');
+    public function fromstopage_tickets(){
+        return $this->hasMany(PurchasedTicket::class,'from_stopage_id');
     }
-    public function transports(){
-        return $this->hasMany(Transport::class,'from_stopage_id','to_stopage_id');
+    public function tostopage_tickets(){
+        return $this->hasMany(PurchasedTicket::class,'to_stopage_id');
+    }
+    public function fromstopage_transports(){
+        return $this->hasMany(Transport::class,'from_stopage_id');
+    }
+    public function tostopage_transports(){
+        return $this->hasMany(Transport::class,'to_stopage_id');
     }
 }
