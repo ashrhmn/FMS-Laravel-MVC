@@ -5,11 +5,11 @@
 <body>
     
 
-@include('includes.header')
+@include('includes.managerHeader')
 
 
 @yield('content')
 
-<div> Copy right &copy;Mortuja Morshed</div>
+<div> Copy right &copy;Sarwer</div>
 
 </body>
