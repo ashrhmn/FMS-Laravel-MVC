@@ -68,7 +68,7 @@ class PageController extends Controller
     public function registersubmit(Request $req){
 
         $req->validate([
-            'username'=>'required',
+            'username'=>'required|min:5',
             'name' =>'required',
             'email' =>'required|email',
             'phone' =>'required|min:11|numeric',
