@@ -7,16 +7,50 @@ use App\Models\Token;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Session;
 
 class AuthController extends Controller
 {
-    public function signin()
+    public function signin(Request $req)
     {
+        $token = $req->session()->get('token');
+        $userToken = Token::where('value', $token)->first();
+        if ($userToken) {
+            switch ($userToken->user->role) {
+                case 'User':
+                    # redirect to User Dashboard
+                    return "Redirect to user dashboard";
+                    break;
+
+                case 'Manager':
+                    # redirect to User Dashboard
+                    return "Redirect to Manager Dashboard";
+                    break;
+
+                case 'FlightManager':
+                    return redirect()->route('fmgr.dashboard');
+                    break;
+
+                case 'Admin':
+                    # redirect to User Dashboard
+                    return "Redirect to AdminDashboard";
+                    break;
+
+                default:
+                    return redirect()->route('auth.signin');
+                    break;
+            }
+        }
+        $req->session()->put('token', null);
         return view('auth.signin');
     }
-    public function signup()
+    public function signup(Request $req)
     {
+        $token = $req->session()->get('token');
+        $userToken = Token::where('value', $token)->first();
+        if ($userToken) {
+            return redirect()->route('auth.signin');
+        }
+        $req->session()->put('token', null);
         $cities = City::all();
         return view('auth.signup')->with('cities', $cities);
     }
@@ -41,30 +75,32 @@ class AuthController extends Controller
         }
 
 
-        $info = new User();
+        $user = new User();
 
-        $info->username = $req->username;
-        $info->name = $req->name;
-        $info->email = $req->email;
-        $info->address = $req->address;
-        $info->phone = $req->phone;
-        $info->date_of_birth = $req->dob;
-        $info->password = md5($req->password);
-        $info->save();
+        $user->username = $req->username;
+        $user->name = $req->name;
+        $user->email = $req->email;
+        $user->address = $req->address;
+        $user->phone = $req->phone;
+        $user->date_of_birth = $req->dob;
+        $user->password = md5($req->password);
+        $user->save();
 
-        // $tokenGen = bin2hex(random_bytes(37));
+        $tokenGen = bin2hex(random_bytes(37));
 
-        // $token = new Token();
+        $token = new Token();
+        $token->value = $tokenGen;
+        $token->user_id = $user->id;
+        $token->save();
+        $req->session()->put('token', $tokenGen);
+        return redirect()->route('auth.signin');
+    }
 
-        // $token->value = $tokenGen;
-        // $token->user_id = $info->id;
-        // $token->save();
-
-        // $req->session()->put('token', $tokenGen);
-
-
-        // return array($token, $info);
-
+    public function logoutPost(Request $req)
+    {
+        $token = $req->session()->get('token');
+        Token::where('value', $token)->delete();
+        $req->session()->put('user', null);
         return redirect()->route('auth.signin');
     }
 
@@ -81,31 +117,10 @@ class AuthController extends Controller
             $token->save();
 
             $req->session()->put('token', $tokenGen);
-            switch ($user->role) {
-                case 'User':
-                    # code...
-                    break;
-
-                case 'Manager':
-                    # code...
-                    break;
-
-                case 'FlightManager':
-                    # code...
-                    break;
-
-                case 'Admin':
-                    # code...
-                    break;
-
-                default:
-                    return redirect()->route('auth.signin');
-                    break;
-            }
-            return redirect()->route('fmgr.dashboard');
         } else {
             $req->session()->put('user', null);
-            return redirect()->route('auth.signin');
+            throw ValidationException::withMessages(['password' => 'Username or password is incorrect']);
         }
+        return redirect()->route('auth.signin');
     }
 }

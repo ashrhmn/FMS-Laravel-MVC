@@ -38,11 +38,11 @@ Route::post('edit/{id}', [AdminController::class, 'update'])->name('update.list'
 Route::get('/delete/{id}', [AdminController::class, 'deletelist'])->name('delete');
 
 
-Route::get('editmanager/{id}',[AdminController::class,'managereditlist']);
-Route::post('editmanager/{id}',[AdminController::class,'managerupdate'])->name('managerupdate');
-Route::get('/managerdelete/{id}',[AdminController::class,'managerdelete'])->name('managerdelete');
+Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
+Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name('managerupdate');
+Route::get('/managerdelete/{id}', [AdminController::class, 'managerdelete'])->name('managerdelete');
 
-Route::post('/userlist',[AdminController::class,'searchsubmit'])->name('search.submit');
+Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search.submit');
 
 //admin user end
 
@@ -66,8 +66,6 @@ Route::get('/manager/userdetails/{id}',[ManagerController::class,'userdetails'])
 Route::get('/manager/flightdetails/{id}',[ManagerController::class,'flightdetails'])->name('manager.flightdetails');
 Route::get('/manager/cancelticket/{id}/{uid}',[ManagerController::class,'cancelticket'])->name('manager.cancelticket');
 Route::get('/manager/searchuserlist',[ManagerController::class,'searchuserlist'])->name('manager.searchuserlist');
-
-
 Route::post('/manager/editProfile',[ManagerController::class,'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass',[ManagerController::class,'changepassSubmit'])->name('manager.changepassSubmit');
 Route::post('/manager/userlist',[ManagerController::class,'userlistSearch'])->name('manager.userlistSearch');
@@ -91,5 +89,6 @@ Route::get('/auth/signup', [AuthController::class, 'signup'])->name('auth.signup
 
 Route::post('/auth/signup/post', [AuthController::class, 'signupPost'])->name('auth.signup.post');
 Route::post('/auth/signin/post', [AuthController::class, 'signinPost'])->name('auth.signin.post');
+Route::get('/auth/logout', [AuthController::class, 'logoutPost'])->name('auth.logout');
 
 // auth route end

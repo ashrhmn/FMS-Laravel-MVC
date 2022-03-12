@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\Token;
 
 class AuthUser
 {
@@ -16,6 +17,12 @@ class AuthUser
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        $token = $request->session()->get('token');
+        $userToken = Token::where('value', $token)->first();
+        if ($userToken && $userToken->user->role == 'User') {
+            return $next($request);
+        }
+        // $request->session()->put('token', null);
+        return redirect()->route('auth.signin');
     }
 }
