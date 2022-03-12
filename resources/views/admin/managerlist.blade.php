@@ -11,9 +11,10 @@
             <th>Address</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Operation</th>
       </tr>
 
-    @foreach($user as $u)
+    @foreach ($user as $u)
     <tr>
 
         <td>{{$u->username}}</td>
@@ -21,6 +22,8 @@
         <td>{{$u->address}}</td>
         <td>{{$u->email}}</td>
         <td>{{$u->phone}}</td>
+        <td><a href="edit/{{$u->id}}" >Edit</a>
+        <a href="managerdelete/{{$u->id}}">Delete</a></td>
    
     </tr>
     @endforeach
