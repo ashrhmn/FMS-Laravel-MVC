@@ -3,7 +3,9 @@
 @section('content')
 
 <h1>User Details</h1>
-
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
 
 <table class="table table-formed">
     <tr>
@@ -57,10 +59,10 @@
                                             @endforeach
                             </li>
                             <li>Flight: {{$p->seatinfos[0]->transport->name}}, {{$p->seatinfos[0]->transport_id}} <a href="{{route('manager.flightdetails',['id'=>encrypt($p->seatinfos[0]->transport_id)])}}" class="btn btn-success">Show Flight Details</a></li>
-                            <a href="{{route('manager.cancelticket',['id'=>encrypt($p->id)])}}" class="btn btn-danger">Cabcel Ticket</a></li>
+                            <a href="{{route('manager.cancelticket',['id'=>encrypt($p->id),'uid'=>encrypt($user->id)])}}" class="btn btn-danger">Cancel Ticket</a></li>
                         </ul>
                     </li>
-                
+
                 @endforeach
             </ol>
         </td>

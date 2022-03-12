@@ -4,6 +4,10 @@
 
 <h2>Manager profile</h2>
 
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
+
 <table class="table table-formed">
     <tr>
         <th>Name:</th>
