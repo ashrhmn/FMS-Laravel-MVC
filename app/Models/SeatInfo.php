@@ -10,7 +10,9 @@ use App\Models\PurchasedTicket;
 class SeatInfo extends Model
 {
     use HasFactory;
+
     protected $table='seat_infos';
+
     public $timestamps = false;
 
     public function transport(){
@@ -19,4 +21,5 @@ class SeatInfo extends Model
     public function purchasedticket(){
         return $this->belongsTo(PurchasedTicket::class,'ticket_id');
     }
+
 }

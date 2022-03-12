@@ -23,4 +23,6 @@ class Transport extends Model
     public function tostopage(){
         return $this->belongsTo(Stopage::class,'to_stopage_id'); 
     }
+
 }
+

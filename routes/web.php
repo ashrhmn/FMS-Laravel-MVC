@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+
 use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\ManagerController;
+
 
 
 /*
@@ -15,7 +19,7 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//page route start
 Route::get('/' ,[PageController::class,'index'])->name('index');
 Route::get('/login' ,[PageController::class,'login'])->name('login');
 Route::get('/register' ,[PageController::class,'registation'])->name('register');
@@ -26,9 +30,41 @@ Route::post('/register',[PageController::class,'registersubmit'])->name('registe
 Route::post('/login',[PageController::class,'loginsubmit'])->name('login.submit');
 
 
+
 Route::get('/user/viewprofile',[UserController::class,'viewProfile'])->name('user.viewProfile');
 Route::get('/user/editprofile',[UserController::class,'editProfile'])->name('user.editProfile');
 Route::post('/user/editprofile',[UserController::class,'editProfileSubmit'])->name('user.editProfileSubmit');
 Route::get('/user/index',[UserController::class,'index'])->name('index');
 Route::get('/user/flights',[UserController::class,'flights'])->name('user.flights');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
+
+//page route end
+
+//Manager route Start
+Route::get('/manager',[ManagerController::class,'home'])->name('manager.home');
+Route::get('/manager/profile',[ManagerController::class,'profile'])->name('manager.profile');
+Route::get('/manager/editProfile/{id}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
+Route::get('/manager/changepass/{id}',[ManagerController::class,'changepass'])->name('manager.changepass');
+
+Route::post('/manager/editProfile',[ManagerController::class,'editProfileSubmit'])->name('manager.editProfileSubmit');
+Route::post('/manager/changepass',[ManagerController::class,'changepassSubmit'])->name('manager.changepassSubmit');
+
+//Manager route End 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

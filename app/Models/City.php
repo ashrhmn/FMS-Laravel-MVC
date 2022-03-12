@@ -19,4 +19,5 @@ class City extends Model
     public function stopages(){
         return $this->hasMany(Stopage::class,'city_id');
     }
+
 }

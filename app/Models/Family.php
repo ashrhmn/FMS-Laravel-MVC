@@ -15,4 +15,6 @@ class Family extends Model
     public function users(){
         return $this->hasMany(userinfo::class,'city_id');
     }
+
 }
+
