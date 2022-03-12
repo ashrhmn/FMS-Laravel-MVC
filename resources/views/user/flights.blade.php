@@ -1,6 +1,6 @@
 @extends('layout.userLayout')
 @section('content')
-<form action="{{route('user.flightsSearch')}}" method="post" class="form-horizontal">
+<form action="{{route('user.flightsSearch')}}" method="post">
     {{@csrf_field()}}
     <table>
     <tr>
@@ -39,10 +39,9 @@
     </tr>
     @foreach($flight as $p)
     <tr>
-        <td>{{$p->name}}</td>
-        
-        <td>{{$p->maximum_seat}}</td>
-        <td>{{$p->avilableSeats}}</td>
+        <td>{{$p}}</td>
+        {{-- <td>{{$p->maximum_seat}}</td>
+        <td>{{$p->avilableSeats}}</td> --}}
         <!-- <td><a href=""></a></td> -->
     </tr>
     @endforeach

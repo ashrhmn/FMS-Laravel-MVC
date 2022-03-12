@@ -99,30 +99,35 @@ class UserController extends Controller
         return view ('user.flights')
         ->with('flight',$flight)->with('stopage',$stopage);
     }
-    public function flightsSearch(Request $req){
-        $transShed = TransportSchedule::where('from_stopage_id','=',$req->fsid)
-        ->where('to_stopage_id','=',$req->tsid)
-        ->get();
+    public function flightsSearch(Request $req)
+    {
+        $stopage = Stopage::all();
+        $transShed = TransportSchedule::where('from_stopage_id', '=', $req->fsid)
+            ->where('to_stopage_id', '=', $req->tsid)
+            ->get();
+        if($transShed){
         $flights = array();
         foreach ($transShed as $ts) {
-            $flight = Transport::where('id','=',$ts->transport_id)->get();
+            $f = Transport::where('id', '=', $ts->transport_id)->first();
 
-            array_push($flights,$flight);
-            return $flights;
-        }
-        //$flight = Transport::where()->get();
-        foreach($flight as $f)
-        {
-            $occupiedSeats = SeatInfo::where('transport_id','=',$f->id)
-            ->where('status','=','Booked')
-            ->count();
+            $occupiedSeats = SeatInfo::where('transport_id', '=', $ts->id)
+                ->where('status', '=', 'Booked')
+                ->count();
             $avilableSeats = $f->maximum_seat - $occupiedSeats;
-            $f->avilableSeats = $avilableSeats;
+            $flight = array('flight' => $f, 'available_seats' => $avilableSeats);
+
+            array_push($flights, $flight);
         }
-        
+
+        //return $flights;
         return view ('user.flights')
-        ->with('flight',$flight)->with('ts',$ts);
+        ->with('flight',$flights)->with('stopage',$stopage);
+    }
+    else{
+        return "No flight found";
+
+    }
+        
     }
     
-
 }
