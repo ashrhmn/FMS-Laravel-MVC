@@ -11,17 +11,21 @@ use App\Models\SeatInfo;
 
 class ManagerController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth.manager');
+    }
     public function home()
     {
         return view('manager.home');
     }
 
-    public function profile(){
-        $user = userinfo::where('username','fahim')
-        ->first();
-        
-        return view('manager.profile')->with('user',$user);
+    public function profile()
+    {
+        $user = User::where('username', 'fahim')
+            ->first();
+
+        return view('manager.profile')->with('user', $user);
     }
     public function editProfile(Request $req)
     {
@@ -52,7 +56,7 @@ class ManagerController extends Controller
                 'address' => $req->address
             ]);
 
-        session()->flash('msg','Profile Updated Successfully');
+        session()->flash('msg', 'Profile Updated Successfully');
         return redirect()->route('manager.profile');
     }
     public function changepass(Request $req)
@@ -82,17 +86,15 @@ class ManagerController extends Controller
             $user = User::where('username', $req->uname)
                 ->update(['password' => md5($req->password)]);
 
-            session()->flash('msg','Password Changed Successfully');
+            session()->flash('msg', 'Password Changed Successfully');
             return redirect()->route('manager.profile');
+        } else {
+            $user = User::where('username', ($req->uname))
+                ->select('id', 'password')
+                ->first();
 
-        }
-        else{
-            $user = userinfo::where('username',($req->uname))
-            ->select('id','password')
-            ->first();
-
-            session()->flash('msg','Wrong Old Password');
-            return  redirect()->route('manager.changepass',['id'=>encrypt($user->id)]);
+            session()->flash('msg', 'Wrong Old Password');
+            return  redirect()->route('manager.changepass', ['id' => encrypt($user->id)]);
         }
     }
     public function userlist()
@@ -125,9 +127,9 @@ class ManagerController extends Controller
             $tickets = PurchasedTicket::where('from_stopage_id', '=', $req->fromstopage)->get();
             $users = array();
 
-            foreach($tickets as $ticket) {
-                if(!in_array($ticket->user,$users)){
-                    array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                if (!in_array($ticket->user, $users)) {
+                    array_push($users, $ticket->user);
                 }
             }
             $stopage = Stopage::all();
@@ -136,9 +138,9 @@ class ManagerController extends Controller
             $tickets = PurchasedTicket::where('to_stopage_id', '=', $req->tostopage)->get();
             $users = array();
 
-            foreach($tickets as $ticket) {
-                if(!in_array($ticket->user,$users)){
-                    array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                if (!in_array($ticket->user, $users)) {
+                    array_push($users, $ticket->user);
                 }
             }
             $stopage = Stopage::all();
@@ -148,9 +150,9 @@ class ManagerController extends Controller
                 ->where('to_stopage_id', '=', $req->tostopage)->get();
             $users = array();
 
-            foreach($tickets as $ticket) {
-                if(!in_array($ticket->user,$users)){
-                    array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                if (!in_array($ticket->user, $users)) {
+                    array_push($users, $ticket->user);
                 }
             }
             $stopage = Stopage::all();
@@ -177,57 +179,51 @@ class ManagerController extends Controller
         return view('manager.flightdetails')->with('flight', $flight)->with('available_seat', $available_seat);
     }
 
-    public function cancelticket(Request $req){
-        
-        $ticketcount = PurchasedTicket::where('purchased_by','=',decrypt($req->uid))->count();
-        
-        if($ticketcount <= 1){
-            $user = userinfo::where('id','=',decrypt($req->uid))->first();
+    public function cancelticket(Request $req)
+    {
 
-            session()->flash('msg','Ticket cannot be canceled');
-            return view('manager.userdetails')->with('user',$user);
+        $ticketcount = PurchasedTicket::where('purchased_by', '=', decrypt($req->uid))->count();
+
+        if ($ticketcount <= 1) {
+            $user = User::where('id', '=', decrypt($req->uid))->first();
+
+            session()->flash('msg', 'Ticket cannot be canceled');
+            return view('manager.userdetails')->with('user', $user);
+        } else {
+            $deleteticket = PurchasedTicket::where('id', '=', decrypt($req->id))->delete();
+            $user = User::where('id', '=', decrypt($req->uid))->first();
+
+            session()->flash('msg', 'Ticket cancelled Successfully');
+            return view('manager.userdetails')->with('user', $user);
         }
-        else{
-            $deleteticket = PurchasedTicket::where('id','=',decrypt($req->id))->delete();
-            $user = userinfo::where('id','=',decrypt($req->uid))->first();
-
-            session()->flash('msg','Ticket cancelled Successfully');
-            return view('manager.userdetails')->with('user',$user);
-
-        }
-
     }
-    public function searchuserlist(){
-        $users = userinfo::where('role','User')->get();
-        return view('manager.searchuserlist')->with('users',$users);
+    public function searchuserlist()
+    {
+        $users = User::where('role', 'User')->get();
+        return view('manager.searchuserlist')->with('users', $users);
     }
-    public function searchuserlistsubmit(Request $req){
+    public function searchuserlistsubmit(Request $req)
+    {
 
-        if($req->email == "" && $req->uname == ""){
-            $users = userinfo::where('role','User')->get();
-            return view('manager.searchuserlist')->with('users',$users);
-
+        if ($req->email == "" && $req->uname == "") {
+            $users = User::where('role', 'User')->get();
+            return view('manager.searchuserlist')->with('users', $users);
+        } elseif ($req->email != "" && $req->uname == "") {
+            $users = User::where('role', 'User')
+                ->where('email', 'like', '%' . $req->email . '%')
+                ->get();
+            return view('manager.searchuserlist')->with('users', $users);
+        } elseif ($req->email == "" && $req->uname != "") {
+            $users = User::where('role', 'User')
+                ->where('username', 'like', '%' . $req->uname . '%')
+                ->get();
+            return view('manager.searchuserlist')->with('users', $users);
+        } elseif ($req->email != "" && $req->uname != "") {
+            $users = User::where('role', 'User')
+                ->where('username', 'like', '%' . $req->uname . '%')
+                ->where('email', 'like', '%' . $req->email . '%')
+                ->get();
+            return view('manager.searchuserlist')->with('users', $users);
         }
-        elseif($req->email != "" && $req->uname == ""){
-            $users = userinfo::where('role','User')
-            ->where('email','like','%'.$req->email.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
-        elseif($req->email == "" && $req->uname != ""){
-            $users = userinfo::where('role','User')
-            ->where('username','like','%'.$req->uname.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
-        elseif($req->email != "" && $req->uname != ""){
-            $users = userinfo::where('role','User')
-            ->where('username','like','%'.$req->uname.'%')
-            ->where('email','like','%'.$req->email.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
-
-
     }
 }

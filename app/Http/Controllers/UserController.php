@@ -9,6 +9,10 @@ use App\Models\SeatInfo;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.user');
+    }
     public function index(Request $req)
     {
         if ($req->search != null) {

@@ -22,7 +22,6 @@ class AuthFlightManager
         if ($userToken && $userToken->user->role == 'FlightManager') {
             return $next($request);
         }
-        // $request->session()->put('token', null);
-        return redirect()->route('auth.signin');
+        return redirect()->route('404')->with('role-err', "Flight-Manager");
     }
 }

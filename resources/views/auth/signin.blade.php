@@ -3,6 +3,7 @@
 @section('content')
     <div class="flex gap-4 flex-col items-center justify-center">
         <h1 class="text-3xl font-bold">Sign In</h1>
+        <h2>{{ $temp ?? '' }}</h2>
         <form class="flex flex-col gap-3 text-lg" method="POST" action="{{ route('auth.signin.post') }}">
             {{ csrf_field() }}
             <div>
