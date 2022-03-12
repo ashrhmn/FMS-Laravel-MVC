@@ -10,7 +10,6 @@ use App\Models\PurchasedTicket;
 class SeatInfo extends Model
 {
     use HasFactory;
-
     protected $table='seat_infos';
 
     public $timestamps = false;
