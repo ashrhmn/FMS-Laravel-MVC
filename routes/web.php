@@ -36,6 +36,9 @@ Route::get('/user/editprofile',[UserController::class,'editProfile'])->name('use
 Route::post('/user/editprofile',[UserController::class,'editProfileSubmit'])->name('user.editProfileSubmit');
 Route::get('/user/index',[UserController::class,'index'])->name('index');
 Route::get('/user/flights',[UserController::class,'flights'])->name('user.flights');
+Route::post('/user/flights',[UserController::class,'flightsSearch'])->name('user.flightsSearch');
+Route::get('/manager/changepass',[UserController::class,'changepass'])->name('user.changepass');
+Route::post('/manager/changepass',[UserController::class,'changepassSubmit'])->name('user.changepassSubmit');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
 
 //page route end

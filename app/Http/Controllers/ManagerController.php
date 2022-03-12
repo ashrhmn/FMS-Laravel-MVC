@@ -131,16 +131,16 @@ class ManagerController extends Controller
 
         return view('manager.userdetails')->with('user',$user);
     }
-    public function flightdetails(Request $req){
-        $flight = Transport::where('id','=',decrypt($req->id))->first();
+    // public function flightdetails(Request $req){
+    //     $flight = Transport::where('id','=',decrypt($req->id))->first();
         
-        $booked = SeatInfo::where('transport_id','=',decrypt($req->id))
-        ->where('status','Booked')
-        ->get();
+    //     $booked = SeatInfo::where('transport_id','=',decrypt($req->id))
+    //     ->where('status','Booked')
+    //     ->get();
 
-        $available_seat = (($flight->maximum_seat)-(count($booked)));
-        return view('manager.flightdetails')->with('flight',$flight)->with('available_seat',$available_seat);
-    }
+    //     $available_seat = (($flight->maximum_seat)-(count($booked)));
+    //     return view('manager.flightdetails')->with('flight',$flight)->with('available_seat',$available_seat);
+    // }
 
 
     
