@@ -107,44 +107,43 @@ class ManagerController extends Controller
             $stopage = Stopage::all();
             return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
         } elseif ($req->booked == '1' && $req->fromstopage == '0' && $req->tostopage == '0') {
+            //$purchaseduser = PurchasedTicket::distinct()->get(['purchased_by']);
+            //$users = User::with('purchasedtickets')->get();
+            //$users = $purchaseduser->user;
             $tickets = PurchasedTicket::all();
             $users = array();
-
-            foreach($tickets as $ticket) {
-                if(!in_array($ticket->user,$users)){
-                    array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                if (!in_array($ticket->user, $users)) {
+                    array_push($users, $ticket->user);
                 }
             }
             $stopage = Stopage::all();
-            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
-        }
-        elseif($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage == '0'){
-            $tickets = PurchasedTicket::where('from_stopage_id','=',$req->fromstopage)->get();
+            return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
+        } elseif ($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage == '0') {
+            $tickets = PurchasedTicket::where('from_stopage_id', '=', $req->fromstopage)->get();
             $users = array();
-            foreach($tickets as $ticket) {
-                array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                array_push($users, $ticket->user);
             }
             $stopage = Stopage::all();
-            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
-        }
-        elseif($req->booked == '1' && $req->fromstopage == '0' && $req->tostopage != '0'){
-            $tickets = PurchasedTicket::where('to_stopage_id','=',$req->tostopage)->get();
+            return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
+        } elseif ($req->booked == '1' && $req->fromstopage == '0' && $req->tostopage != '0') {
+            $tickets = PurchasedTicket::where('to_stopage_id', '=', $req->tostopage)->get();
             $users = array();
-            foreach($tickets as $ticket) {
-                array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                array_push($users, $ticket->user);
             }
             $stopage = Stopage::all();
-            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
-        }
-        elseif($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage != '0'){
-            $tickets = PurchasedTicket::where('from_stopage_id','=',$req->fromstopage)
-            ->where('to_stopage_id','=',$req->tostopage)->get();
+            return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
+        } elseif ($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage != '0') {
+            $tickets = PurchasedTicket::where('from_stopage_id', '=', $req->fromstopage)
+                ->where('to_stopage_id', '=', $req->tostopage)->get();
             $users = array();
-            foreach($tickets as $ticket) {
-                array_push($users,$ticket->user);
+            foreach ($tickets as $ticket) {
+                array_push($users, $ticket->user);
             }
             $stopage = Stopage::all();
-            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
+            return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
         }
     }
     public function userdetails(Request $req)
@@ -153,31 +152,23 @@ class ManagerController extends Controller
 
         return view('manager.userdetails')->with('user', $user);
     }
-    public function flightdetails(Request $req){
-        $flight = Transport::where('id','=',decrypt($req->id))->first();
-        
-        $booked = SeatInfo::where('transport_id','=',decrypt($req->id))
-        ->where('status','Booked')
-        ->get();
-        //return $flight->maximum_seat; 
-        //return count($booked);
-        $available_seat = (($flight->maximum_seat)-(count($booked)));
-        //return $available_seat;
-        return view('manager.flightdetails')->with('flight',$flight)->with('available_seat',$available_seat);
-    }
-    public function cancelticket(Request $req){
-
-        $deleteticket = PurchasedTicket::where('id','=',decrypt($req->id))->delete();
-        return $deleteticket;
-    }
-
-
+    public function flightdetails(Request $req)
+    {
+        $flight = Transport::where('id', '=', decrypt($req->id))->first();
 
         $booked = SeatInfo::where('transport_id', '=', decrypt($req->id))
             ->where('status', 'Booked')
             ->get();
-
+        //return $flight->maximum_seat; 
+        //return count($booked);
         $available_seat = (($flight->maximum_seat) - (count($booked)));
+        //return $available_seat;
         return view('manager.flightdetails')->with('flight', $flight)->with('available_seat', $available_seat);
+    }
+    public function cancelticket(Request $req)
+    {
+
+        $deleteticket = PurchasedTicket::where('id', '=', decrypt($req->id))->delete();
+        return $deleteticket;
     }
 }
