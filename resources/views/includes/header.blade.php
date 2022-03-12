@@ -8,7 +8,7 @@
     <a href="{{ route('manager.list') }}">managerlist </a>
 
 
-    <a class="" href="{{ route('logout') }}"> logout </a>
+    <a class="" href="{{ route('auth.logout') }}"> logout </a>
 
 
 </div>
