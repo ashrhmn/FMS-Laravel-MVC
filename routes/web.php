@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\UserController;
 
@@ -26,9 +27,17 @@ Route::get('/register' ,[PageController::class,'registation'])->name('register')
 Route::get('/logout' ,[PageController::class,'logout'])->name('logout');
 
 Route::post('/register',[PageController::class,'registersubmit'])->name('register.submit');
-
 Route::post('/login',[PageController::class,'loginsubmit'])->name('login.submit');
 
+//admin user
+Route::get('/userlist',[AdminController::class,'userlist'])->name('user.list');
+Route::get('/managerlist',[AdminController::class,'managerlist'])->name('manager.list');
+
+Route::get('edit/{id}',[AdminController::class,'editlist']);
+Route::post('edit/{id}',[AdminController::class,'update'])->name('update.list');
+Route::get('/delete/{id}',[AdminController::class,'deletelist'])->name('delete');
+
+//admin user end
 
 
 Route::get('/user/viewprofile',[UserController::class,'viewProfile'])->name('user.viewProfile');
@@ -55,18 +64,6 @@ Route::post('/manager/userlist',[ManagerController::class,'userlistSearch'])->na
 
 
 //Manager route End 
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
