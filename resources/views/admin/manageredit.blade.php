@@ -12,7 +12,6 @@
     
     <b><p>Please fill in this form to Updated account.</p><b>
 
-
     <input type="hidden" name="id" value="{{$data->id}}">
 
 <b>Username:</b><input type="text" name="username" value="{{$data->username}}" placeholder=""/></br>
