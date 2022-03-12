@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SeatInfo;
 use App\Models\TransportSchedule;
-use App\Models\userinfo;
+use App\Models\User;
 
 
 class Transport extends Model
@@ -27,6 +27,6 @@ class Transport extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(userinfo::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

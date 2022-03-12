@@ -8,8 +8,7 @@ use App\Http\Controllers\FlightManagerController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\ManagerController;
-
-
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +78,7 @@ Route::get('/flight-manager', [FlightManagerController::class, 'dashboard'])->na
 Route::get('/auth/signin', [AuthController::class, 'signin'])->name('auth.signin');
 Route::get('/auth/signup', [AuthController::class, 'signup'])->name('auth.signup');
 
-Route::post('/auth/signup', [AuthController::class, 'signupPost'])->name('auth.signup.post');
+Route::post('/auth/signup/post', [AuthController::class, 'signupPost'])->name('auth.signup.post');
+Route::post('/auth/signin/post', [AuthController::class, 'signinPost'])->name('auth.signin.post');
 
 // auth route end
