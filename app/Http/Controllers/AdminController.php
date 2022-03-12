@@ -85,5 +85,58 @@ class AdminController extends Controller
 
 
 
+
+    public function managereditlist(Request  $req){
+
+        $id= $req->id;
+
+        $data=userinfo::where('id',$id)->first();
+        
+        return view ('admin.managerlist')->with('data',$data);
+
+
+
+    }
+
+    public function managerupdate(Request $req){
+
+    
+
+            $var=userinfo::where('id',$req->id)->first();
+            $var->username=$req->username;
+            $var->name=$req->name;
+            $var->date_of_birth=$req->dob;
+            $var->phone=$req->phone;
+            $var->email=$req->email;
+            $var->address=$req->address;
+            $var->save(); 
+            return redirect()-> route('manager.list'); 
+    }
+
+
+    public function managerdelete($id){
+
+
+        $data1=userinfo::find($id)->delete();
+
+        return redirect()->route('manager.list')->with('data1',$data1);
+    }
+
+
+
+
+
+
+    public function searchsubmit(Request $req){
+        
+        //  return $req->uname;
+        $user = userinfo::where('username','like','%'.$req->uname.'%')
+        ->where('role','User')
+        ->get();
+
+        return view('admin.userlist')->with('user',$user);
+    }
+
+
     
 }

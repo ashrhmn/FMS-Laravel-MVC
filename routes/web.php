@@ -37,6 +37,13 @@ Route::get('edit/{id}',[AdminController::class,'editlist']);
 Route::post('edit/{id}',[AdminController::class,'update'])->name('update.list');
 Route::get('/delete/{id}',[AdminController::class,'deletelist'])->name('delete');
 
+
+Route::get('editmanager/{id}',[AdminController::class,'managereditlist']);
+Route::post('editmanager/{id}',[AdminController::class,'managerupdate'])->name('managerupdate');
+Route::get('/managerdelete/{id}',[AdminController::class,'managerdelete'])->name('managerdelete');
+
+Route::post('/userlist',[AdminController::class,'searchsubmit'])->name('search.submit');
+
 //admin user end
 
 
