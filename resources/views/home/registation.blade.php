@@ -1,7 +1,10 @@
 @extends('layout.app')
 @section('content')
 
-<form action="{{route('register.submit')}}" method="post">
+
+ <table>
+
+ <form action="{{route('register.submit')}}" method="post">
     {{@csrf_field()}}
 
     <h1>Register</h1>
@@ -20,7 +23,7 @@
 <b>Email:</b><input type="email" name="email" value="{{old('email')}}"placeholder=""/></br>
 @error('email')
 <span>{{$message}}</span>
-@enderror
+@enderror</br>
 
 <b>Phone No:</b><input type="phone" name="phone" value="{{old('phone')}}" placeholder=""/></br>
 @error('phone')
@@ -33,7 +36,7 @@
 @enderror</br>
 
 </span><b>Address:</b></label>
-<textarea id="address" name="address" value="{{old('address')}}" ></textarea><br>
+<input id="address" name="address" value="{{old('address')}}" /><br>
 @error('address')
 <span>{{$message}}</span>
 @enderror</br>
@@ -51,5 +54,8 @@
 <button type="submit" class="bg-blue-300 text-5xl text-center hover:bg-green-400">Register</button>
 
 </form>
+
+ </table>
+
 
 @endsection

@@ -42,23 +42,23 @@ class PageController extends Controller
     //    return $userinfo;
      
     $msg="";
-    if($users ){ $msg= "users exists";
+    // if($users ){ $msg= "users exists";
 
-    }
-    else{
-        $msg = "student doestnot exist";
-    }
-    return  redirect()->route('index',['msg'=> $msg]);
+    // }
+    // else{
+    //     $msg = "student doestnot exist";
+    // }
+    // return  redirect()->route('index',['msg'=> $msg]);
 
-    //  if($userinfo){
-    //   $req->session()->flash('msg','users Exists');
+     if($users){
+      $req->session()->flash('msg','users Exists');
 
-    //  }
-    //  else{
-    //     $req->session()->flash('msg','users does not Exists');
-    //  }
+     }
+     else{
+        $req->session()->flash('msg','users does not Exists');
+     }
 
-    // return  redirect()->route('index');
+    return  redirect()->route('index');
     
 
 }
