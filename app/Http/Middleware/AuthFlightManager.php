@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Token;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,12 @@ class AuthFlightManager
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        $token = $request->session()->get('token');
+        $userToken = Token::where('value', $token)->first();
+        if ($userToken && $userToken->user->role == 'FlightManager') {
+            return $next($request);
+        }
+        // $request->session()->put('token', null);
+        return redirect()->route('auth.signin');
     }
 }

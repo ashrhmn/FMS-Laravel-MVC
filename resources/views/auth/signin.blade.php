@@ -17,7 +17,7 @@
             <div>
                 <div class="flex justify-end gap-2">
                     <label for="password">Password :</label>
-                    <input class="border-2 w-60" type="text" name="password">
+                    <input class="border-2 w-60" type="password" name="password">
                 </div>
                 @error('password')
                     <span class="text-md text-red-600">{{ $message }}</span>
