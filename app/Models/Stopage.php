@@ -17,6 +17,7 @@ class Stopage extends Model
     public function city(){
         return $this->belongsTo(City::class,'city_id');  
     }
+
     public function fromstopage_tickets(){
         return $this->hasMany(PurchasedTicket::class,'from_stopage_id');
     }
@@ -30,3 +31,4 @@ class Stopage extends Model
         return $this->hasMany(Transport::class,'to_stopage_id');
     }
 }
+

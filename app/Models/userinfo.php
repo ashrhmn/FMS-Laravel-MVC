@@ -27,4 +27,6 @@ class userinfo extends Model
     }
 
 
+
 }
+
