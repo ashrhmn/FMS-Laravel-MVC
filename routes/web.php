@@ -32,9 +32,14 @@ Route::get('/manager',[ManagerController::class,'home'])->name('manager.home');
 Route::get('/manager/profile',[ManagerController::class,'profile'])->name('manager.profile');
 Route::get('/manager/editProfile/{id}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
 Route::get('/manager/changepass/{id}',[ManagerController::class,'changepass'])->name('manager.changepass');
+Route::get('/manager/userlist',[ManagerController::class,'userlist'])->name('manager.userlist');
+Route::get('/manager/userdetails/{id}',[ManagerController::class,'userdetails'])->name('manager.userdetails');
+Route::get('/manager/flightdetails/{id}',[ManagerController::class,'flightdetails'])->name('manager.flightdetails');
 
 Route::post('/manager/editProfile',[ManagerController::class,'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass',[ManagerController::class,'changepassSubmit'])->name('manager.changepassSubmit');
+Route::post('/manager/userlist',[ManagerController::class,'userlistSearch'])->name('manager.userlistSearch');
+
 
 //Manager route End 
 

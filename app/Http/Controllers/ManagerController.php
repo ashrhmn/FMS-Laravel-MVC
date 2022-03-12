@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\userinfo;
+use App\Models\Stopage;
+use App\Models\PurchasedTicket;
+use App\Models\Transport;
+use App\Models\SeatInfo;
 
 class ManagerController extends Controller
 {
@@ -84,6 +88,61 @@ class ManagerController extends Controller
         }
         
     }
+    public function userlist(){
+        $users = userinfo::where('role','User')->get();
+        $stopage = Stopage::all();
+        return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
+    }
+    public function userlistSearch(Request $req){
+
+        if($req->booked != '1' ){
+            $users = userinfo::where('role','User')->get();
+            $stopage = Stopage::all();
+            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
+        }
+        elseif($req->booked == '1' && $req->fromstopage == '0' && $req->tostopage == '0'){
+            //$purchaseduser = PurchasedTicket::distinct()->get(['purchased_by']);
+            //$users = userinfo::with('purchasedtickets')->get();
+            //$users = $purchaseduser->user;
+            $tickets = PurchasedTicket::all();
+            $users = array();
+            foreach ($tickets as $ticket) {
+                array_push($users,$ticket->user);
+            }
+            $stopage = Stopage::all();
+            return view('manager.userlist')->with('users',$users)->with('stopage',$stopage);
+        }
+        elseif($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage == '0'){
+
+            $stopage = Stopage::all();
+        }
+        elseif($req->booked == '1' && $req->fromstopage == '0' && $req->tostopage != '0'){
+
+            $stopage = Stopage::all();
+        }
+        elseif($req->booked == '1' && $req->fromstopage != '0' && $req->tostopage != '0'){
+
+            $stopage = Stopage::all();
+        }
+
+    }
+    public function userdetails(Request $req){
+        $user = userinfo::where('id','=',decrypt($req->id))->first();
+
+        return view('manager.userdetails')->with('user',$user);
+    }
+    public function flightdetails(Request $req){
+        $flight = Transport::where('id','=',decrypt($req->id))->first();
+        
+        $booked = SeatInfo::where('transport_id','=',decrypt($req->id))
+        ->where('status','Booked')
+        ->get();
+
+        $available_seat = (($flight->maximum_seat)-(count($booked)));
+        return view('manager.flightdetails')->with('flight',$flight)->with('available_seat',$available_seat);
+    }
+
+
     
 
 

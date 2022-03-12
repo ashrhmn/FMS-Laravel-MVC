@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\City;
 use App\Models\PurchasedTicket;
-use App\Models\Transport;
+use App\Models\TransportSchedule;
 
 class Stopage extends Model
 {
@@ -23,10 +23,10 @@ class Stopage extends Model
     public function tostopage_tickets(){
         return $this->hasMany(PurchasedTicket::class,'to_stopage_id');
     }
-    public function fromstopage_transports(){
-        return $this->hasMany(Transport::class,'from_stopage_id');
+    public function fromstopage_transportschedules(){
+        return $this->hasMany(TransportSchedule::class,'from_stopage_id');
     }
-    public function tostopage_transports(){
-        return $this->hasMany(Transport::class,'to_stopage_id');
+    public function tostopage_transportschedules(){
+        return $this->hasMany(TransportSchedule::class,'to_stopage_id');
     }
 }

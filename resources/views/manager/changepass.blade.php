@@ -2,7 +2,8 @@
 
 @section('content')
 
-<h1>Manager Home</h1>
+<h1>Change Password</h1>
+
 <form action="{{route('manager.changepassSubmit')}}" method="post">
     {{@csrf_field()}}
     <table>
