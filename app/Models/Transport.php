@@ -21,4 +21,6 @@ class Transport extends Model
     public function transportschedules(){
         return $this->hasMany(TransportSchedule::class,'transport_id');
     }
+
 }
+

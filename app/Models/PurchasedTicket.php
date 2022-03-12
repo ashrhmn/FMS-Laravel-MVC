@@ -27,4 +27,6 @@ class PurchasedTicket extends Model
         return $this->belongsTo(Stopage::class,'to_stopage_id'); 
     }
 
+
 }
+

@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\ManagerController;
+
 
 
 /*
@@ -25,6 +29,15 @@ Route::post('/register',[PageController::class,'registersubmit'])->name('registe
 
 Route::post('/login',[PageController::class,'loginsubmit'])->name('login.submit');
 
+
+
+Route::get('/user/viewprofile',[UserController::class,'viewProfile'])->name('user.viewProfile');
+Route::get('/user/editprofile',[UserController::class,'editProfile'])->name('user.editProfile');
+Route::post('/user/editprofile',[UserController::class,'editProfileSubmit'])->name('user.editProfileSubmit');
+Route::get('/user/index',[UserController::class,'index'])->name('index');
+Route::get('/user/flights',[UserController::class,'flights'])->name('user.flights');
+//Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
+
 //page route end
 
 //Manager route Start
@@ -42,8 +55,6 @@ Route::post('/manager/userlist',[ManagerController::class,'userlistSearch'])->na
 
 
 //Manager route End 
-
-
 
 
 
