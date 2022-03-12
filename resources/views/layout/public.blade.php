@@ -10,10 +10,10 @@
 </head>
 
 <body>
-    <nav>
-        <ul class="flex gap-10 text-xl font-bold hover:text-blue-400">
-            <li> <a href="{{ route('auth.signin') }}">Sign In</a> </li>
-            <li> <a href="{{ route('auth.signup') }}">Sign Up</a> </li>
+    <nav class="bg-blue-900 text-white py-6">
+        <ul class="flex px-6 gap-10 text-xl font-bold">
+            <li> <a class="hover:text-blue-300" href="{{ route('auth.signin') }}">Sign In</a> </li>
+            <li> <a class="hover:text-blue-300" href="{{ route('auth.signup') }}">Sign Up</a> </li>
         </ul>
     </nav>
     @yield('content')

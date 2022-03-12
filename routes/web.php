@@ -79,4 +79,6 @@ Route::get('/flight-manager', [FlightManagerController::class, 'dashboard'])->na
 Route::get('/auth/signin', [AuthController::class, 'signin'])->name('auth.signin');
 Route::get('/auth/signup', [AuthController::class, 'signup'])->name('auth.signup');
 
+Route::post('/auth/signup', [AuthController::class, 'signupPost'])->name('auth.signup.post');
+
 // auth route end
