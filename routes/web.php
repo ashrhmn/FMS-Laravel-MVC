@@ -37,6 +37,13 @@ Route::get('edit/{id}', [AdminController::class, 'editlist']);
 Route::post('edit/{id}', [AdminController::class, 'update'])->name('update.list');
 Route::get('/delete/{id}', [AdminController::class, 'deletelist'])->name('delete');
 
+
+Route::get('editmanager/{id}',[AdminController::class,'managereditlist']);
+Route::post('editmanager/{id}',[AdminController::class,'managerupdate'])->name('managerupdate');
+Route::get('/managerdelete/{id}',[AdminController::class,'managerdelete'])->name('managerdelete');
+
+Route::post('/userlist',[AdminController::class,'searchsubmit'])->name('search.submit');
+
 //admin user end
 
 
@@ -50,13 +57,15 @@ Route::get('/user/flights', [UserController::class, 'flights'])->name('user.flig
 //page route end
 
 //Manager route Start
-Route::get('/manager', [ManagerController::class, 'home'])->name('manager.home');
-Route::get('/manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
-Route::get('/manager/editProfile/{id}', [ManagerController::class, 'editProfile'])->name('manager.editProfile');
-Route::get('/manager/changepass/{id}', [ManagerController::class, 'changepass'])->name('manager.changepass');
-Route::get('/manager/userlist', [ManagerController::class, 'userlist'])->name('manager.userlist');
-Route::get('/manager/userdetails/{id}', [ManagerController::class, 'userdetails'])->name('manager.userdetails');
-Route::get('/manager/flightdetails/{id}', [ManagerController::class, 'flightdetails'])->name('manager.flightdetails');
+Route::get('/manager',[ManagerController::class,'home'])->name('manager.home');
+Route::get('/manager/profile',[ManagerController::class,'profile'])->name('manager.profile');
+Route::get('/manager/editProfile/{id}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
+Route::get('/manager/changepass/{id}',[ManagerController::class,'changepass'])->name('manager.changepass');
+Route::get('/manager/userlist',[ManagerController::class,'userlist'])->name('manager.userlist');
+Route::get('/manager/userdetails/{id}',[ManagerController::class,'userdetails'])->name('manager.userdetails');
+Route::get('/manager/flightdetails/{id}',[ManagerController::class,'flightdetails'])->name('manager.flightdetails');
+Route::get('/manager/cancelticket/{id}',[ManagerController::class,'cancelticket'])->name('manager.cancelticket');
+
 
 Route::post('/manager/editProfile', [ManagerController::class, 'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass', [ManagerController::class, 'changepassSubmit'])->name('manager.changepassSubmit');

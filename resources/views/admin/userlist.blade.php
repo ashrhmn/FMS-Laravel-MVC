@@ -4,6 +4,12 @@
  
 <h1>User Details </h1>
 
+<form action="{{route('search.submit')}}" method="post">
+    {{csrf_field()}}
+ <b>Search:<b> <input type="search" name="uname">
+ <input type="submit">
+</form>
+
 <table>
         <tr>
             <th>User Name</th>
