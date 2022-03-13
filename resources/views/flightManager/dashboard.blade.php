@@ -2,14 +2,22 @@
 
 @section('content')
     <h1 class="text-3xl font-bold text-center my-8">Dashboard</h1>
-    <form class="flex justify-center my-10 gap-4 items-center" action="{{route('fmgr.add.aircraft')}}" method="POST">
+    <form class="flex flex-col justify-center my-10 gap-4 items-center" action="{{route('fmgr.add.aircraft')}}" method="POST">
     {{ csrf_field() }}    
     <div class="flex justify-end items-center gap-2">
             <label for="name">Name : </label>
-            <input class="border-2 w-60" type="text" name="name">
+            <input class="border-2 w-60" type="text" name="name" value="{{ old('name') }}">
             <label for="maximum_seat">Seat Capacity : </label>
-            <input class="border-2 w-60" type="number"  name="maximum_seat">
+            <input class="border-2 w-60" type="number"  name="maximum_seat" value="{{ old('maximum_seat') }}">
             <input class="bg-blue-600 text-white rounded px-2 py-1" type="submit" value="Add New">
+        </div>
+        <div>
+            @error('name')
+            <span class="text-md text-red-600">{{ $message }}</span>
+            @enderror
+            @error('maximum_seat')
+            <span class="text-md text-red-600">{{ $message }}</span>
+            @enderror
         </div>
     </form>
     <table class="mx-auto">

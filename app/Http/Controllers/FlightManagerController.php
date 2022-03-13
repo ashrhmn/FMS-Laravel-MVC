@@ -49,6 +49,10 @@ class FlightManagerController extends Controller
     }
 
     public function addAircraft(Request $req){
+        $req->validate([
+            'name'=>'required',
+            'maximum_seat'=>'required|min:40'
+        ]);
         $token = $req->session()->get('token');
         $tokenUser = Token::where('value', $token)->first();
         if (!$tokenUser) {

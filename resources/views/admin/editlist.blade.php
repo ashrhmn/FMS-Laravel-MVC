@@ -47,6 +47,20 @@
 @enderror</br>
 
 
+</span><b>Role:</b></label>
+<input id="role" type="text" name="role" value="{{$data->role}}"/><br>
+<select name="role">
+    <option {{$data->role=="Admin"?"selected":""}} value="Admin">Admin</option>
+    <option {{$data->role=="Manager"?"selected":""}} value="Manager">Manager</option>
+    <option {{$data->role=="User"?"selected":""}} value="User">User</option>
+    <option {{$data->role=="FlightManager"?"selected":""}} value="FlightManager">Flight Manager</option>
+</select>
+@error('role')
+<span>{{$message}}</span>
+@enderror</br>
+
+
+
 <button type="submit" class="bg-blue-300 text-5xl text-center hover:bg-green-400">Updated</button>
 
 </form>

@@ -8,7 +8,7 @@
 
 <table class="table table-formed">
     <tr>
-        <td><a href="{{route('manager.userlist')}}" class="btn btn-success" >Customer & Perchased Ticket Customer</a></td>
+        <td><a href="{{route('manager.userlist')}}" class="btn btn-success" >Customer & Purchased Ticket Customer</a></td>
         <!-- <td><a href="{{route('manager.userlist')}}" class="btn btn-danger" >Search Flights</a></td> -->
     </tr>
     <tr>
