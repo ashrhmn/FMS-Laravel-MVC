@@ -424,6 +424,27 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.ml-10 {
+  margin-left: 2.5rem;
+}
+.mt-10 {
+  margin-top: 2.5rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
 .flex {
   display: flex;
 }
@@ -438,6 +459,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-40 {
   width: 10rem;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .flex-col {
   flex-direction: column;
@@ -481,8 +511,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(30 58 138 / var(--tw-bg-opacity));
 }
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
 .p-2 {
   padding: 0.5rem;
+}
+.p-3 {
+  padding: 0.75rem;
 }
 .py-6 {
   padding-top: 1.5rem;
@@ -511,6 +548,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
+}
 .font-bold {
   font-weight: 700;
 }
@@ -521,6 +562,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity));
 }
 .hover\:bg-green-400:hover {
   --tw-bg-opacity: 1;

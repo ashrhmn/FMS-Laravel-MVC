@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\Token;
 
 class AuthManager
 {
@@ -16,11 +17,11 @@ class AuthManager
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if($request->session()->get('user') && $request->session()->get('role') == "Manager" ){
+        $token = $request->session()->get('token');
+        $userToken = Token::where('value', $token)->first();
+        if ($userToken && $userToken->user->role == 'Manager') {
             return $next($request);
         }
-        return redirect()->route('login');
-        
+        return redirect()->route('404')->with('role-err', "Manager");
     }
 }

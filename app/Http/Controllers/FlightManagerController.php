@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 
 class FlightManagerController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth.flightmanager');
+    public function __construct()
+    {
+        $this->middleware('auth.flightManager');
     }
     public function dashboard()
     {

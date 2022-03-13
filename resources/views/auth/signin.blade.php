@@ -6,6 +6,7 @@
 @endif
     <div class="flex gap-4 flex-col items-center justify-center">
         <h1 class="text-3xl font-bold">Sign In</h1>
+        <h2>{{ $temp ?? '' }}</h2>
         <form class="flex flex-col gap-3 text-lg" method="POST" action="{{ route('auth.signin.post') }}">
             {{ csrf_field() }}
             <div>
@@ -20,7 +21,7 @@
             <div>
                 <div class="flex justify-end gap-2">
                     <label for="password">Password :</label>
-                    <input class="border-2 w-60" type="text" name="password">
+                    <input class="border-2 w-60" type="password" name="password">
                 </div>
                 @error('password')
                     <span class="text-md text-red-600">{{ $message }}</span>

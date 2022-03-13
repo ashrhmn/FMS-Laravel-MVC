@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\SessiSession;
 
 class AdminController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth.admin');
     }
     public function userlist()
@@ -70,55 +71,55 @@ class AdminController extends Controller
 
 
 
-    public function managereditlist(Request  $req){
+    public function managereditlist(Request  $req)
+    {
 
-        $id= $req->id;
+        $id = $req->id;
 
-        $data=User::where('id',$id)->first();
-        
-        return view ('admin.managerlist')->with('data',$data);
+        $data = User::where('id', $id)->first();
 
-
-
+        return view('admin.managerlist')->with('data', $data);
     }
 
-    public function managerupdate(Request $req){
-
-    
-
-            $var=User::where('id',$req->id)->first();
-            $var->username=$req->username;
-            $var->name=$req->name;
-            $var->date_of_birth=$req->dob;
-            $var->phone=$req->phone;
-            $var->email=$req->email;
-            $var->address=$req->address;
-            $var->save(); 
-            return redirect()-> route('manager.list'); 
-    }
+    public function managerupdate(Request $req)
+    {
 
 
-    public function managerdelete($id){
 
-
-        $data1=User::find($id)->delete();
-
-        return redirect()->route('manager.list')->with('data1',$data1);
+        $var = User::where('id', $req->id)->first();
+        $var->username = $req->username;
+        $var->name = $req->name;
+        $var->date_of_birth = $req->dob;
+        $var->phone = $req->phone;
+        $var->email = $req->email;
+        $var->address = $req->address;
+        $var->save();
+        return redirect()->route('manager.list');
     }
 
 
+    public function managerdelete($id)
+    {
+
+
+        $data1 = User::find($id)->delete();
+
+        return redirect()->route('manager.list')->with('data1', $data1);
+    }
 
 
 
 
-    public function searchsubmit(Request $req){
-        
+
+
+    public function searchsubmit(Request $req)
+    {
+
         //  return $req->uname;
-        $user = User::where('username','like','%'.$req->uname.'%')
-        ->where('role','User')
-        ->get();
+        $user = User::where('username', 'like', '%' . $req->uname . '%')
+            ->where('role', 'User')
+            ->get();
 
-        return view('admin.userlist')->with('user',$user);
+        return view('admin.userlist')->with('user', $user);
     }
-
 }
