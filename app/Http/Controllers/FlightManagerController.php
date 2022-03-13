@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stopage;
+use App\Models\Token;
 use App\Models\Transport;
+use App\Models\TransportSchedule;
 use Illuminate\Http\Request;
 
 class FlightManagerController extends Controller
@@ -11,9 +14,37 @@ class FlightManagerController extends Controller
     {
         $this->middleware('auth.flightManager');
     }
-    public function dashboard()
+    public function dashboard(Request $req)
     {
-        $transports = Transport::where('created_by', 8)->get();
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        if (!$tokenUser) {
+            return redirect()->route('auth.signin');
+        }
+        $transports = Transport::where('created_by', $tokenUser->user_id)->get();
         return view('flightmanager.dashboard')->with('transports', $transports);
+    }
+    public function deleteScheduleById($id)
+    {
+        TransportSchedule::where('id', $id)->delete();
+        return redirect()->action([FlightManagerController::class, 'dashboard']);
+    }
+    public function addScheduleByTransportId($tid)
+    {
+        $transport = Transport::where('id', $tid)->first();
+        $airports = Stopage::all();
+        return view('flightmanager.addSchedule')->with('transport', $transport)->with('airports', $airports);
+    }
+    public function addScheduleByTransportIdPost(Request $req)
+    {
+        $schedule = new TransportSchedule();
+        $schedule->transport_id = $req->tid;
+        $schedule->from_stopage_id = $req->from_stopage_id;
+        $schedule->to_stopage_id = $req->to_stopage_id;
+        $schedule->day = $req->day;
+        $schedule->time = $req->timeh . $req->timem;
+        // $schedule->start_time = $req->start_time;
+        $schedule->save();
+        return redirect()->action([FlightManagerController::class, 'dashboard']);
     }
 }
