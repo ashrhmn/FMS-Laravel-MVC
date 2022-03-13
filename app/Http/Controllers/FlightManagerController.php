@@ -47,4 +47,12 @@ class FlightManagerController extends Controller
         $schedule->save();
         return redirect()->action([FlightManagerController::class, 'dashboard']);
     }
+
+    public function addAircraft(Request $req){
+        $transport = new Transport();
+        $transport->name = $req->name;
+        $transport->maximum_seat = $req->maximum_seat;
+        $transport->save();
+        return redirect()->action([FlightManagerController::class,'dashboard']);
+    }
 }

@@ -2,10 +2,12 @@
 
 @section('content')
     <h1 class="text-3xl font-bold text-center my-8">Dashboard</h1>
-    <form class="flex justify-center my-10 gap-4 items-center" action="" method="POST">
-        <div class="flex justify-end items-center gap-2">
+    <form class="flex justify-center my-10 gap-4 items-center" action="{{route('fmgr.add.aircraft')}}" method="POST">
+    {{ csrf_field() }}    
+    <div class="flex justify-end items-center gap-2">
             <label for="name">Name : </label>
             <input class="border-2 w-60" type="text" name="name">
+            <input class="border-2 w-60" type="number" name="seat_capacity">
             <input class="bg-blue-600 text-white rounded px-2 py-1" type="submit" value="Add New">
         </div>
     </form>

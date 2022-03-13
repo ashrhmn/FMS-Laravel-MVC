@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 |
 */
 //page route start
+Route::get('/',function(){return view('welcome');});
 Route::get('/admin/home', [PageController::class, 'index'])->name('index');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/register', [PageController::class, 'registation'])->name('register');
@@ -79,6 +80,8 @@ Route::post('/manager/searchuserlist', [ManagerController::class, 'searchuserlis
 
 Route::get('/flight-manager', [FlightManagerController::class, 'dashboard'])->name('fmgr.dashboard');
 
+
+Route::post('/flight-manager/add-aircraft/', [FlightManagerController::class, 'addAircraft'])->name('fmgr.add.aircraft');
 Route::get('/flight-manager/delete-schedule/{id}', [FlightManagerController::class, 'deleteScheduleById'])->name('fmgr.delete.schedule');
 Route::get('/flight-manager/add-schedule/{tid}', [FlightManagerController::class, 'addScheduleByTransportId'])->name('fmgr.add.schedule');
 Route::post('/flight-manager/add-schedule/{tid}/post', [FlightManagerController::class, 'addScheduleByTransportIdPost'])->name('fmgr.add.schedule.post');

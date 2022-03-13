@@ -8,6 +8,7 @@ use App\Models\Stopage;
 use App\Models\PurchasedTicket;
 use App\Models\Transport;
 use App\Models\SeatInfo;
+use App\Models\Token;
 
 class ManagerController extends Controller
 {
@@ -20,7 +21,7 @@ class ManagerController extends Controller
         return view('manager.home');
     }
 
-    public function profile(){
+    public function profile(Request $req){
 
         $token = $req->session()->get('token');
         $tokenUser = Token::where('value', $token)->first();
