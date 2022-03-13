@@ -17,13 +17,13 @@ class AuthController extends Controller
         if ($userToken) {
             switch ($userToken->user->role) {
                 case 'User':
-                    # redirect to User Dashboard
+                    //return redirect()->route('index');
                     return "Redirect to user dashboard";
                     break;
 
                 case 'Manager':
-                    # redirect to User Dashboard
-                    return "Redirect to Manager Dashboard";
+                    return redirect()->route('manager.home');
+    
                     break;
 
                 case 'FlightManager':
@@ -31,8 +31,7 @@ class AuthController extends Controller
                     break;
 
                 case 'Admin':
-                    # redirect to User Dashboard
-                    return "Redirect to AdminDashboard";
+                    return redirect()->route('index');
                     break;
 
                 default:
@@ -86,13 +85,13 @@ class AuthController extends Controller
         $user->password = md5($req->password);
         $user->save();
 
-        $tokenGen = bin2hex(random_bytes(37));
+        // $tokenGen = bin2hex(random_bytes(37));
 
-        $token = new Token();
-        $token->value = $tokenGen;
-        $token->user_id = $user->id;
-        $token->save();
-        $req->session()->put('token', $tokenGen);
+        // $token = new Token();
+        // $token->value = $tokenGen;
+        // $token->user_id = $user->id;
+        // $token->save();
+        // $req->session()->put('token', $tokenGen);
         return redirect()->route('auth.signin');
     }
 
