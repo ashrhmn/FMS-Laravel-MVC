@@ -21,7 +21,14 @@ class ManagerController extends Controller
     }
 
     public function profile(){
-        $user = User::where('username','fahim')
+
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        if (!$tokenUser) {
+            return redirect()->route('auth.signin');
+        }
+
+        $user = User::where('id',$tokenUser->user_id)
         ->first();
         
         return view('manager.profile')->with('user',$user);
@@ -88,11 +95,6 @@ class ManagerController extends Controller
 
             session()->flash('msg', 'Password Changed Successfully');
             return redirect()->route('manager.profile');
-        } else {
-            $user = User::where('username', ($req->uname))
-                ->select('id', 'password')
-                ->first();
-
         }
         else{
             $user = User::where('username',($req->uname))
@@ -190,23 +192,13 @@ class ManagerController extends Controller
         
         $ticketcount = PurchasedTicket::where('purchased_by','=',decrypt($req->uid))->count();
         
-        if($ticketcount <= 1){
-            $user = User::where('id','=',decrypt($req->uid))->first();
-
-            session()->flash('msg','Ticket cannot be canceled');
-            return view('manager.userdetails')->with('user',$user);
-        }
-        else{
-            $deleteticket = PurchasedTicket::where('id','=',decrypt($req->id))->delete();
-            $user = User::where('id','=',decrypt($req->uid))->first();
-
-
         if ($ticketcount <= 1) {
             $user = User::where('id', '=', decrypt($req->uid))->first();
 
             session()->flash('msg', 'Ticket cannot be canceled');
             return view('manager.userdetails')->with('user', $user);
-        } else {
+        } 
+        else {
             $deleteticket = PurchasedTicket::where('id', '=', decrypt($req->id))->delete();
             $user = User::where('id', '=', decrypt($req->uid))->first();
 
@@ -223,47 +215,28 @@ class ManagerController extends Controller
         if($req->email == "" && $req->uname == ""){
             $users = User::where('role','User')->get();
             return view('manager.searchuserlist')->with('users',$users);
-
-
-        if ($req->email == "" && $req->uname == "") {
-            $users = User::where('role', 'User')->get();
-            return view('manager.searchuserlist')->with('users', $users);
-        } elseif ($req->email != "" && $req->uname == "") {
+            
+        } 
+        elseif ($req->email != "" && $req->uname == "") {
             $users = User::where('role', 'User')
                 ->where('email', 'like', '%' . $req->email . '%')
                 ->get();
             return view('manager.searchuserlist')->with('users', $users);
-        } elseif ($req->email == "" && $req->uname != "") {
+        } 
+        elseif ($req->email == "" && $req->uname != "") {
             $users = User::where('role', 'User')
                 ->where('username', 'like', '%' . $req->uname . '%')
                 ->get();
             return view('manager.searchuserlist')->with('users', $users);
-        } elseif ($req->email != "" && $req->uname != "") {
+        } 
+        elseif ($req->email != "" && $req->uname != "") {
             $users = User::where('role', 'User')
                 ->where('username', 'like', '%' . $req->uname . '%')
                 ->where('email', 'like', '%' . $req->email . '%')
                 ->get();
             return view('manager.searchuserlist')->with('users', $users);
         }
-        elseif($req->email != "" && $req->uname == ""){
-            $users = User::where('role','User')
-            ->where('email','like','%'.$req->email.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
-        elseif($req->email == "" && $req->uname != ""){
-            $users = User::where('role','User')
-            ->where('username','like','%'.$req->uname.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
-        elseif($req->email != "" && $req->uname != ""){
-            $users = User::where('role','User')
-            ->where('username','like','%'.$req->uname.'%')
-            ->where('email','like','%'.$req->email.'%')
-            ->get();
-            return view('manager.searchuserlist')->with('users',$users);
-        }
+        
 
 
     }
