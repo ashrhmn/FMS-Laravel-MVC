@@ -12,13 +12,16 @@ use App\Models\SeatInfo;
 class ManagerController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth.manager');
+    }
     public function home()
     {
         return view('manager.home');
     }
 
     public function profile(){
-        $user = userinfo::where('username','fahim')
+        $user = User::where('username','fahim')
         ->first();
         
         return view('manager.profile')->with('user',$user);
@@ -87,7 +90,7 @@ class ManagerController extends Controller
 
         }
         else{
-            $user = userinfo::where('username',($req->uname))
+            $user = User::where('username',($req->uname))
             ->select('id','password')
             ->first();
 
@@ -173,7 +176,7 @@ class ManagerController extends Controller
         //return $flight->maximum_seat; 
         //return count($booked);
         $available_seat = (($flight->maximum_seat) - (count($booked)));
-        //return $available_seat;
+        //return $flight;
         return view('manager.flightdetails')->with('flight', $flight)->with('available_seat', $available_seat);
     }
 
@@ -182,14 +185,14 @@ class ManagerController extends Controller
         $ticketcount = PurchasedTicket::where('purchased_by','=',decrypt($req->uid))->count();
         
         if($ticketcount <= 1){
-            $user = userinfo::where('id','=',decrypt($req->uid))->first();
+            $user = User::where('id','=',decrypt($req->uid))->first();
 
             session()->flash('msg','Ticket cannot be canceled');
             return view('manager.userdetails')->with('user',$user);
         }
         else{
             $deleteticket = PurchasedTicket::where('id','=',decrypt($req->id))->delete();
-            $user = userinfo::where('id','=',decrypt($req->uid))->first();
+            $user = User::where('id','=',decrypt($req->uid))->first();
 
             session()->flash('msg','Ticket cancelled Successfully');
             return view('manager.userdetails')->with('user',$user);
@@ -198,30 +201,30 @@ class ManagerController extends Controller
 
     }
     public function searchuserlist(){
-        $users = userinfo::where('role','User')->get();
+        $users = User::where('role','User')->get();
         return view('manager.searchuserlist')->with('users',$users);
     }
     public function searchuserlistsubmit(Request $req){
 
         if($req->email == "" && $req->uname == ""){
-            $users = userinfo::where('role','User')->get();
+            $users = User::where('role','User')->get();
             return view('manager.searchuserlist')->with('users',$users);
 
         }
         elseif($req->email != "" && $req->uname == ""){
-            $users = userinfo::where('role','User')
+            $users = User::where('role','User')
             ->where('email','like','%'.$req->email.'%')
             ->get();
             return view('manager.searchuserlist')->with('users',$users);
         }
         elseif($req->email == "" && $req->uname != ""){
-            $users = userinfo::where('role','User')
+            $users = User::where('role','User')
             ->where('username','like','%'.$req->uname.'%')
             ->get();
             return view('manager.searchuserlist')->with('users',$users);
         }
         elseif($req->email != "" && $req->uname != ""){
-            $users = userinfo::where('role','User')
+            $users = User::where('role','User')
             ->where('username','like','%'.$req->uname.'%')
             ->where('email','like','%'.$req->email.'%')
             ->get();

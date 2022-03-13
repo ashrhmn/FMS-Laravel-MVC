@@ -16,6 +16,9 @@ class AuthFlightManager
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if($request->session()->get('user') && $request->session()->get('role') == "FlightManager" ){
+            return $next($request);
+        }
+        return redirect()->route('login');
     }
 }

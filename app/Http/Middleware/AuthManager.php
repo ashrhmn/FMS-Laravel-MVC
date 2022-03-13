@@ -16,6 +16,11 @@ class AuthManager
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+
+        if($request->session()->get('user') && $request->session()->get('role') == "Manager" ){
+            return $next($request);
+        }
+        return redirect()->route('login');
+        
     }
 }

@@ -24,7 +24,7 @@ class AuthController extends Controller
     public function signupPost(Request $req)
     {
         $req->validate([
-            'username' => 'required|min:3',
+            'username' => 'required|unique:users,username|min:3',
             'name' => 'required|min:5',
             'password' => 'required|min:6',
             'password2' => 'required|same:password',
@@ -64,6 +64,7 @@ class AuthController extends Controller
 
 
         // return array($token, $info);
+        $req->session()->flash('msg','Signup Successful');
 
         return redirect()->route('auth.signin');
     }
@@ -83,19 +84,23 @@ class AuthController extends Controller
             $req->session()->put('token', $tokenGen);
             switch ($user->role) {
                 case 'User':
-                    # code...
+                    $req->session()->put('user', $tokenGen);
+                    return redirect()->route('manager.home');
                     break;
 
                 case 'Manager':
-                    # code...
+                    $req->session()->put('user', $tokenGen);
+                    return redirect()->route('manager.home');
                     break;
 
                 case 'FlightManager':
-                    # code...
+                    $req->session()->put('user', $tokenGen);
+                    return redirect()->route('fmgr.dashboard');
                     break;
 
                 case 'Admin':
-                    # code...
+                    $req->session()->put('user', $tokenGen);
+                    return redirect()->route('index');
                     break;
 
                 default:
