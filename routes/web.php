@@ -79,6 +79,10 @@ Route::post('/manager/searchuserlist', [ManagerController::class, 'searchuserlis
 
 Route::get('/flight-manager', [FlightManagerController::class, 'dashboard'])->name('fmgr.dashboard');
 
+Route::get('/flight-manager/delete-schedule/{id}', [FlightManagerController::class, 'deleteScheduleById'])->name('fmgr.delete.schedule');
+Route::get('/flight-manager/add-schedule/{tid}', [FlightManagerController::class, 'addScheduleByTransportId'])->name('fmgr.add.schedule');
+Route::post('/flight-manager/add-schedule/{tid}/post', [FlightManagerController::class, 'addScheduleByTransportIdPost'])->name('fmgr.add.schedule.post');
+
 
 // flight manager route end
 

@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Schedule</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -22,14 +23,29 @@
                 <tr class="border-t-2 border-b-2">
                     <td class="px-8">{{ $transport->id }}</td>
                     <td class="px-8">{{ $transport->name }}</td>
-                    <td class="px-8">
+                    <td class="px-8 min-w-[20rem]">
                         @foreach ($transport->transportSchedules as $schedule)
-                            From <b>{{ $schedule->fromstopage->name }}, {{ $schedule->fromstopage->city->name }},
-                                {{ $schedule->fromstopage->city->country }}</b> To <b>{{ $schedule->tostopage->name }},
+                            FROM <b>{{ $schedule->fromstopage->name }}, {{ $schedule->fromstopage->city->name }},
+                                {{ $schedule->fromstopage->city->country }}</b> <br> TO
+                            <b>{{ $schedule->tostopage->name }},
                                 {{ $schedule->tostopage->city->name }},
                                 {{ $schedule->tostopage->city->country }}</b>
+                            <br>
+                            {{ substr(str_pad($schedule->time, 4, '0', STR_PAD_LEFT), 0, 2) }}
+                            :
+                            {{ substr(str_pad($schedule->time, 4, '0', STR_PAD_LEFT), 2, 2) }}
+                            -
+                            {{ $schedule->day }}
+                            <br>
+                            <a class="bg-red-500 text-white p-1 rounded"
+                                href="{{ route('fmgr.delete.schedule', ['id' => $schedule->id]) }}">Delete</a>
+                            <br />
                             <br />
                         @endforeach
+                    </td>
+                    <td class="px-8">
+                        <a class="bg-green-600 text-white p-1 rounded"
+                            href="{{ route('fmgr.add.schedule', ['tid' => $transport->id]) }}">Add Schedule</a>
                     </td>
                 </tr>
             @endforeach
