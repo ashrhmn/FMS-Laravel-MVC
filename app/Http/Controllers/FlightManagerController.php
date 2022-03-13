@@ -49,9 +49,15 @@ class FlightManagerController extends Controller
     }
 
     public function addAircraft(Request $req){
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        if (!$tokenUser) {
+            return redirect()->route('auth.signin');
+        }
         $transport = new Transport();
         $transport->name = $req->name;
         $transport->maximum_seat = $req->maximum_seat;
+        $transport->created_by = $tokenUser->user_id;
         $transport->save();
         return redirect()->action([FlightManagerController::class,'dashboard']);
     }

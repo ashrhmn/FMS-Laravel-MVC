@@ -51,7 +51,7 @@ Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search
 Route::get('/user/viewprofile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 Route::get('/user/editprofile', [UserController::class, 'editProfile'])->name('user.editProfile');
 Route::post('/user/editprofile', [UserController::class, 'editProfileSubmit'])->name('user.editProfileSubmit');
-Route::get('/user/index', [UserController::class, 'index'])->name('index');
+// Route::get('/user/index', [UserController::class, 'index'])->name('index');
 Route::get('/user/flights', [UserController::class, 'flights'])->name('user.flights');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
 
