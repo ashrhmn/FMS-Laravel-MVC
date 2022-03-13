@@ -29,31 +29,23 @@ class PageController extends Controller
 
     public function loginsubmit(Request $req)
     {
-
         $req->validate([
 
             'username' => 'required',
             // 'email'=>'required|email',
-            'password' => "required"
+            'password' => 'required|min:4'
         ]);
 
         $users = User::where('username', $req->username)
             ->where('password', md5($req->password))
             ->first();
 
-        $msg = "";
-        // if($users ){ $msg= "users exists";
-
-        // }
-        // else{
-        //     $msg = "student doestnot exist";
-        // }
-        // return  redirect()->route('index',['msg'=> $msg]);
 
         if ($users) {
-            // $req->session()->flash('msg', 'users Exists');
+            $req->session()->put('user',$user->username);
+            $req->session()->put('role',$user->role);
         } else {
-            // $req->session()->flash('msg', 'users does not Exists');
+            $req->session()->flash('msg', 'users does not Exists');
         }
 
         return  redirect()->route('index');

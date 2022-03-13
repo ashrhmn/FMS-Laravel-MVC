@@ -1,6 +1,9 @@
 @extends('layout.public')
 
 @section('content')
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
     <div class="flex gap-4 flex-col items-center justify-center">
         <h1 class="text-3xl font-bold">Sign In</h1>
         <h2>{{ $temp ?? '' }}</h2>

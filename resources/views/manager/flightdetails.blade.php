@@ -13,18 +13,7 @@
         <th>Flight ID:</th>
         <td>{{$flight->id}}</td>
     </tr>
-    <tr>
-        <th>Start Time:</th>
-        <td>{{$flight->transportschedules->start_time}}</td>
-    </tr>
-    <tr>
-        <th>From Stopage:</th>
-        <td>{{$flight->transportschedules[0]->fromstopage->name}}, {{$flight->transportschedules[0]->fromstopage->city->name}}, {{$flight->transportschedules[0]->fromstopage->city->country}}</td>
-    </tr>
-    <tr>
-        <th>Destination:</th>
-        <td>{{$flight->transportschedules[0]->tostopage->name}}, {{$flight->transportschedules[0]->tostopage->city->name}}, {{$flight->transportschedules[0]->tostopage->city->country}}</td>
-    </tr>
+    
     <tr>
         <th>Available Seats:</th>
         <td>@if(($available_seat)>0)

@@ -58,7 +58,7 @@ class AuthController extends Controller
     public function signupPost(Request $req)
     {
         $req->validate([
-            'username' => 'required|min:3',
+            'username' => 'required|unique:users,username|min:3',
             'name' => 'required|min:5',
             'password' => 'required|min:6',
             'password2' => 'required|same:password',
@@ -95,6 +95,7 @@ class AuthController extends Controller
         $req->session()->put('token', $tokenGen);
         return redirect()->route('auth.signin');
     }
+
 
     public function logoutPost(Request $req)
     {

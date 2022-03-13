@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 |
 */
 //page route start
-Route::get('/', [PageController::class, 'index'])->name('index');
+Route::get('/admin/home', [PageController::class, 'index'])->name('index');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/register', [PageController::class, 'registation'])->name('register');
 Route::get('/logout', [PageController::class, 'logout'])->name('logout');
@@ -84,8 +84,8 @@ Route::get('/flight-manager', [FlightManagerController::class, 'dashboard'])->na
 
 // auth routes start
 
-Route::get('/auth/signin', [AuthController::class, 'signin'])->name('auth.signin');
-Route::get('/auth/signup', [AuthController::class, 'signup'])->name('auth.signup');
+Route::get('/signin', [AuthController::class, 'signin'])->name('auth.signin');
+Route::get('/signup', [AuthController::class, 'signup'])->name('auth.signup');
 
 Route::post('/auth/signup/post', [AuthController::class, 'signupPost'])->name('auth.signup.post');
 Route::post('/auth/signin/post', [AuthController::class, 'signinPost'])->name('auth.signin.post');
