@@ -58,7 +58,7 @@
                                                 {{$s->seat_class}}
                                             @endforeach
                             </li>
-                            <li>Flight: {{$p->seatinfos[0]->transport->name}}, {{$p->seatinfos[0]->transport_id}} <a href="{{route('manager.flightdetails',['id'=>encrypt($p->seatinfos[0]->transport_id)])}}" class="btn btn-success">Show Flight Details</a></li>
+                            <li>Flight: <a href="{{route('manager.flightdetails',['id'=>encrypt($p->seatinfos[0]->transport_id)])}}" class="btn btn-success"> {{$p->seatinfos[0]->transport->name}} </br> ID: {{$p->seatinfos[0]->transport_id}}</a></li>
                             <a href="{{route('manager.cancelticket',['id'=>encrypt($p->id),'uid'=>encrypt($user->id)])}}" class="btn btn-danger">Cancel Ticket</a></li>
                         </ul>
                     </li>

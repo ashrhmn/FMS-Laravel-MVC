@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\PurchasedTicket;
 use App\Models\City;
 use App\Models\Family;
-use App\Models\Transports;
+use App\Models\Transport;
 
 class User extends Model
 {
@@ -31,6 +31,6 @@ class User extends Model
     }
     public function transports()
     {
-        return $this->hasMany(Transports::class, 'created_by');
+        return $this->hasMany(Transport::class, 'created_by');
     }
 }

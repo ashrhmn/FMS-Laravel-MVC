@@ -10,9 +10,9 @@
     <table>
         <tr>
             <td>
-            <input type="text"  name="uuname" placeholder="By Username">
+            <input type="text"  name="uname" placeholder="By Username">
             </td>
-            <td><input type="submit" value="Search User" /></td>
+            <td><input type="submit" value="Search Flight Manager" /></td>
         </tr>
     </table>
 </form>
@@ -22,14 +22,16 @@
         <tr>
             <th>Name</th>
             <th>Username</th>
-            <th>Created Schedule</th>
+            <th>Create Flight</th>
         </tr>
         @foreach($users as $u)
             <tr>
                 <td>{{$u->name}}</td>
-                <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn-success"> {{$u->username}}</td>
-                @if($u->transports->transportschedules.Count() > 0)
-
+                <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn-success"> {{$u->username}}</a></td>
+                @if(count($u->transports) > 0)
+                    <td><a href="{{route('manager.creatorFlightList',['id'=>encrypt($u->id)])}}" class="btn-success">Yes </a></td>
+                @else
+                    <td>Not Found</td>
                 @endif
             </tr>
         @endforeach
