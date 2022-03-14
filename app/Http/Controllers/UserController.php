@@ -26,22 +26,31 @@ class UserController extends Controller
     }
     public function viewProfile()
     {
-        $user = userinfo::where('username', '=', 'Mortujaii')->first();
+        $user = userinfo::where('username', '=', 'afridi')->first();
         return view('user.viewProfile')
             ->with('user', $user);
     }
     public function editProfile()
     {
-        $user = userinfo::where('username', '=', 'Mortujaii')->first();
+        $user = userinfo::where('username', '=', 'afridi')->first();
         return view('user.editProfile')
             ->with('user', $user);
     }
     public function editProfileSubmit(Request $req)
     {
-        $user = userinfo::where('username', '=', 'Mortujaii')->first();
+        $req->validate(
+            [
+                'name'=>'required',
+                'email'=>'required|email',
+                'phone' =>'required|regex:/(01)[0-9]{9}/',
+                
+                'address'=>'required'
+            ]
+            
+        );
+        $user = userinfo::where('username', '=', 'afridi')->first();
 
         $user->name = $req->name;
-        $user->username = $req->username;
         $user->name = $req->name;
         $user->date_of_birth = $req->dob;
         $user->address = $req->address;
@@ -56,7 +65,7 @@ class UserController extends Controller
             ->select('username', 'password')
             ->first();
 
-        return view('manager.changepass')->with('user', $user);
+        return view('user.changepass')->with('user', $user);
     }
     public function changepassSubmit(Request $req)
     {
@@ -135,5 +144,10 @@ class UserController extends Controller
         } else {
             return "No flight found";
         }
+    }
+    public function bookTicket()
+    {
+        
+
     }
 }

@@ -42,9 +42,10 @@
         @foreach ($flights as $p)
             <tr>
                 <td>{{ $p->name }}</td>
+                <td>{{ $p->transportschedules->id}}</td>
                 <td>{{ $p->maximum_seat }}</td>
                 <td>{{ $p->avilableSeats }}</td>
-                <!-- <td><a href=""></a></td> -->
+                <td><a href="{{route('user.bookTicket')}}"></a></td>
             </tr>
         @endforeach
     </table>

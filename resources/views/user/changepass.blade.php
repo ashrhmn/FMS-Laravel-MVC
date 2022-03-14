@@ -4,7 +4,7 @@
 
 <h1>Change Password</h1>
 
-<form action="{{route('user.changepassSubmit')}}" method="post">
+<form action="{{route('user.changepassSubmit')}}" method="POST">
     {{@csrf_field()}}
     <table>
         <tr>
