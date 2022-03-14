@@ -47,7 +47,7 @@
         @foreach($users as $u)
             <tr>
                 <td>{{$u->name}}</td>
-                <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn-success"> {{$u->username}}</td>
+                <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn btn-primary"> {{$u->username}}</td>
             </tr>
         @endforeach
     </table>

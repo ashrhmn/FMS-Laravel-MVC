@@ -32,7 +32,9 @@
         <th>Address:</th>
         <td>{{$user->address}}</td>
     </tr>
+@if($user->role == 'FlightManager')
 
+@else
     <tr>
         <th>Purchased Tickets:</th>
         <td>     
@@ -74,6 +76,7 @@
 
         @endif
     </tr>
+@endif
 </table>
 
 @endsection

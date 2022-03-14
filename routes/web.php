@@ -84,12 +84,16 @@ Route::get('/manager/searchuserlist', [ManagerController::class, 'searchuserlist
 Route::get('/manager/flightManagerList', [ManagerController::class, 'flightManagerList'])->name('manager.flightManagerList');
 Route::get('/manager/creatorFlightList/{id}', [ManagerController::class, 'creatorFlightList'])->name('manager.creatorFlightList');
 Route::get('/manager/bookFlight/{id}', [ManagerController::class, 'bookFlight'])->name('manager.bookFlight');
+Route::get('/manager/deleteSchedule/{id}/{fid}', [ManagerController::class, 'deleteSchedule'])->name('manager.deleteSchedule');
+Route::get('/manager/flightList', [ManagerController::class, 'flightList'])->name('manager.flightList');
+
 
 Route::post('/manager/editProfile', [ManagerController::class, 'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass', [ManagerController::class, 'changepassSubmit'])->name('manager.changepassSubmit');
 Route::post('/manager/userlist', [ManagerController::class, 'userlistSearch'])->name('manager.userlistSearch');
 Route::post('/manager/searchuserlist', [ManagerController::class, 'searchuserlistsubmit'])->name('manager.searchuserlistsubmit');
 Route::post('/manager/flightManagerList', [ManagerController::class, 'flightManagerSearch'])->name('manager.flightManagerSearch');
+Route::post('/manager/flightList', [ManagerController::class, 'flightSearch'])->name('manager.flightSearch');
 
 
 //Manager route End 
