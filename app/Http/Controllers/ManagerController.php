@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Stopage;
 use App\Models\PurchasedTicket;
 use App\Models\Transport;
+use App\Models\TransportSchedule;
 use App\Models\SeatInfo;
 use App\Models\Token;
 
@@ -171,17 +172,29 @@ class ManagerController extends Controller
     }
     public function flightManagerList(){
         $users = User::where('role', 'FlightManager')->get();
-        $stopage = Stopage::all();
-        return view('manager.flightManagerList')->with('users', $users)->with('stopage', $stopage);
+        return view('manager.flightManagerList')->with('users', $users);
     }
 
     public function flightManagerSearch(Request $req){
-        
+        if($req->uname != ""){
+            $users = User::where('role', 'FlightManager')
+                    ->where('username','like','%'.$req->uname.'%')
+                    ->get();
+            return view('manager.flightManagerList')->with('users', $users);
+        }
+        else{
+            $users = User::where('role', 'FlightManager')->get();
+        return view('manager.flightManagerList')->with('users', $users);
+        }
         
     }
 
+    public function creatorFlightList(Request $req){
 
+        $user = User::where('id', '=', decrypt($req->id))->first();
 
+        return view('manager.creatorFlightList')->with('user',$user);
+    }
 
 
     public function userdetails(Request $req)
@@ -195,6 +208,17 @@ class ManagerController extends Controller
     {
         $flight = Transport::where('id', '=', decrypt($req->id))->first();
 
+        $schedules= TransportSchedule::where('transport_id','=',decrypt($req->id))->get();
+
+        // $schedules =[];
+
+        // foreach( $schedul as $s){
+
+        //     $seatinfo = SeatInfo::where('transport_id','=',decrypt($req->id))
+        //     ->where()
+
+        // }
+
         $booked = SeatInfo::where('transport_id', '=', decrypt($req->id))
             ->where('status', 'Booked')
             ->get();
@@ -202,7 +226,7 @@ class ManagerController extends Controller
         //return count($booked);
         $available_seat = (($flight->maximum_seat) - (count($booked)));
         //return $flight;
-        return view('manager.flightdetails')->with('flight', $flight)->with('available_seat', $available_seat);
+        return view('manager.flightdetails')->with('flight', $flight)->with('schedules',$schedules)->with('available_seat', $available_seat);
     }
 
 
@@ -258,4 +282,14 @@ class ManagerController extends Controller
 
 
     }
+    public function bookFlight(Request $req){
+
+
+
+        return view('admin.bookFlight');
+    }
+
+
+
+
 }

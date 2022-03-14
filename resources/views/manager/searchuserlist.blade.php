@@ -31,6 +31,7 @@
                 <td>{{$u->name}}</td>
                 <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn-success"> {{$u->username}}</td>
                 <td>{{$u->email}}</td>
+                <td><a href="" class="">Book Flight</td>
             </tr>
         @endforeach
     </table>
