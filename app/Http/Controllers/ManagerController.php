@@ -175,6 +175,7 @@ class ManagerController extends Controller
 
         return view('manager.userdetails')->with('user', $user);
     }
+
     public function flightdetails(Request $req)
     {
         $flight = Transport::where('id', '=', decrypt($req->id))->first();
@@ -188,6 +189,7 @@ class ManagerController extends Controller
         //return $flight;
         return view('manager.flightdetails')->with('flight', $flight)->with('available_seat', $available_seat);
     }
+
 
     public function cancelticket(Request $req){
         

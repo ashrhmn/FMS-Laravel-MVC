@@ -9,5 +9,6 @@
     <h3>Phone: {{$user->phone}}</h3>
 
     <a href="{{route('user.editProfile')}}">Edit Profile</a>
+    <a href="{{route('user.changepass',['id'=>encrypt($user->id)])}}" class="btn btn-success">Change Password</a>
     
 @endsection

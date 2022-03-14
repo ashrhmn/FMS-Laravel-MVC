@@ -9,10 +9,6 @@
 <input type="hidden" name="password" value="{{$user->password}}"/>
 <input type="hidden" name="id" value="{{$user->id}}"/>
 <input type="hidden" name="role" value="{{$user->role}}"/>
-<b>Username:</b><input type="text" name="username" value="{{$user->username}}" placeholder=""/></br>
-@error('username')
-<span>{{$message}}</span>
-@enderror</br>
 
 <b>Name:</b><input type="text" name="name" value="{{$user->name}}" placeholder=""/></br>
 @error('name')
