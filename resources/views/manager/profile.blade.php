@@ -4,12 +4,37 @@
 
 <h2>Manager profile</h2>
 
-<h5>Name:  {{$user->name}}  </h5>
-<h5>Username: {{$user->username}} </h5>
-<h5>Email: {{$user->email}} </h5>
-<h5>Phone:  {{$user->phone}}  </h5>
-<h5>Date of Birth: {{$user->date_of_birth}} </h5>
-<h5>Address: {{$user->address}} </h5>
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
+
+<table class="table table-formed">
+    <tr>
+        <th>Name:</th>
+        <td>{{$user->name}}</td>
+    </tr>
+    <tr>
+        <th>Username:</th>
+        <td>{{$user->username}}</td>
+    </tr>
+    <tr>
+        <th>Email: </th>
+        <td>{{$user->email}}</td>
+    </tr>
+    <tr>
+        <th>Phone:</th>
+        <td>{{$user->phone}}</td>
+    </tr>
+    <tr>
+        <th>Date of Birth:</th>
+        <td>{{$user->date_of_birth}}</td>
+    </tr>
+    <tr>
+        <th>Address:</th>
+        <td>{{$user->address}}</td>
+    </tr>
+</table>
+
 
 
 <a href="{{route('manager.editProfile',['id'=>encrypt($user->id)])}}" class="btn btn-success">Edit Profile</a>

@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\userinfo;
+use App\Models\User;
 use App\Models\Transport;
 use App\Models\SeatInfo;
+
 use App\Models\TransportSchedule;
 use App\Models\Stopage;
 
+
+
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.user');
+    }
+
     public function index(Request $req)
     {
         if ($req->search != null) {
@@ -26,18 +34,23 @@ class UserController extends Controller
     }
     public function viewProfile()
     {
+
         $user = userinfo::where('username', '=', 'afridi')->first();
+
         return view('user.viewProfile')
             ->with('user', $user);
     }
     public function editProfile()
     {
+
         $user = userinfo::where('username', '=', 'afridi')->first();
+
         return view('user.editProfile')
             ->with('user', $user);
     }
     public function editProfileSubmit(Request $req)
     {
+
         $req->validate(
             [
                 'name'=>'required',
@@ -50,6 +63,7 @@ class UserController extends Controller
         );
         $user = userinfo::where('username', '=', 'afridi')->first();
 
+
         $user->name = $req->name;
         $user->name = $req->name;
         $user->date_of_birth = $req->dob;
@@ -59,6 +73,7 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('user.viewProfile');
     }
+
     public function changepass(Request $req)
     {
         $user = userinfo::where('Id', '=', decrypt($req->id))
@@ -102,6 +117,7 @@ class UserController extends Controller
     {
         $flight = Transport::all();
         $stopage = Stopage::all();
+
         foreach ($flight as $f) {
             $occupiedSeats = SeatInfo::where('transport_id', '=', $f->id)
                 ->where('status', '=', 'Booked')
@@ -109,6 +125,7 @@ class UserController extends Controller
             $avilableSeats = $f->maximum_seat - $occupiedSeats;
             $f->avilableSeats = $avilableSeats;
         }
+
         // return $flight;
         return view('user.flights')
             ->with('flights', $flight)->with('stopage', $stopage);
@@ -150,4 +167,5 @@ class UserController extends Controller
         
 
     }
+
 }

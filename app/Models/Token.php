@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class Family extends Model
+class Token extends Model
 {
     use HasFactory;
-    protected $table = 'families';
+    protected $table = "tokens";
     public $timestamps = false;
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class, 'city_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

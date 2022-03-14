@@ -18,7 +18,7 @@
                  <select name="fromstopage">
                     <option value="0">From Stopage</option>
                     @foreach($stopage as $s)
-                        <option value="{{$s->name}}">{{$s->name}}, {{$s->city->name}}, {{$s->city->country}}</option>
+                        <option value="{{$s->id}}">{{$s->name}}, {{$s->city->name}}, {{$s->city->country}}</option>
                     @endforeach
                  </select>
             </td>
@@ -29,7 +29,7 @@
                  <select name="tostopage">
                     <option value="0">Destination</option>
                     @foreach($stopage as $s)
-                        <option value="{{$s->name}}">{{$s->name}}, {{$s->city->name}}, {{$s->city->country}}</option>
+                        <option value="{{$s->id}}">{{$s->name}}, {{$s->city->name}}, {{$s->city->country}}</option>
                     @endforeach
                  </select>
             </td>
@@ -39,7 +39,7 @@
 </form>
 
 @if(count($users)>0)
-    <table>
+    <table class="table table-formed">
         <tr>
             <th>Name</th>
             <th>Username</th>

@@ -4,6 +4,10 @@
 
 <h1>Change Password</h1>
 
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
+
 <form action="{{route('manager.changepassSubmit')}}" method="post">
     {{@csrf_field()}}
     <table>
