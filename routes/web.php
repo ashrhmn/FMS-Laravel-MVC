@@ -31,6 +31,7 @@ Route::post('/register', [PageController::class, 'registersubmit'])->name('regis
 Route::post('/login', [PageController::class, 'loginsubmit'])->name('login.submit');
 
 //admin user
+Route::get('/admin/home', [AdminController::class, 'index'])->name('index');
 Route::get('/userlist', [AdminController::class, 'userlist'])->name('user.list');
 Route::get('/managerlist', [AdminController::class, 'managerlist'])->name('manager.list');
 
@@ -67,10 +68,13 @@ Route::get('/manager/userdetails/{id}', [ManagerController::class, 'userdetails'
 Route::get('/manager/flightdetails/{id}', [ManagerController::class, 'flightdetails'])->name('manager.flightdetails');
 Route::get('/manager/cancelticket/{id}/{uid}', [ManagerController::class, 'cancelticket'])->name('manager.cancelticket');
 Route::get('/manager/searchuserlist', [ManagerController::class, 'searchuserlist'])->name('manager.searchuserlist');
+Route::get('/manager/flightManagerList', [ManagerController::class, 'flightManagerList'])->name('manager.flightManagerList');
+
 Route::post('/manager/editProfile', [ManagerController::class, 'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass', [ManagerController::class, 'changepassSubmit'])->name('manager.changepassSubmit');
 Route::post('/manager/userlist', [ManagerController::class, 'userlistSearch'])->name('manager.userlistSearch');
 Route::post('/manager/searchuserlist', [ManagerController::class, 'searchuserlistsubmit'])->name('manager.searchuserlistsubmit');
+Route::post('/manager/flightManagerSearch', [ManagerController::class, 'flightManagerSearch'])->name('manager.flightManagerSearch');
 
 
 //Manager route End 

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.adminApp')
 
 @section('content')
 
@@ -48,7 +48,6 @@
 
 
 </span><b>Role:</b></label>
-<input id="role" type="text" name="role" value="{{$data->role}}"/><br>
 <select name="role">
     <option {{$data->role=="Admin"?"selected":""}} value="Admin">Admin</option>
     <option {{$data->role=="Manager"?"selected":""}} value="Manager">Manager</option>

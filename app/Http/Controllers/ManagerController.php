@@ -169,6 +169,21 @@ class ManagerController extends Controller
             return view('manager.userlist')->with('users', $users)->with('stopage', $stopage);
         }
     }
+    public function flightManagerList(){
+        $users = User::where('role', 'FlightManager')->get();
+        $stopage = Stopage::all();
+        return view('manager.flightManagerList')->with('users', $users)->with('stopage', $stopage);
+    }
+
+    public function flightManagerSearch(Request $req){
+        
+        
+    }
+
+
+
+
+
     public function userdetails(Request $req)
     {
         $user = User::where('id', '=', decrypt($req->id))->first();
