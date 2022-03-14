@@ -207,16 +207,12 @@ class ManagerController extends Controller
     public function flightdetails(Request $req)
     {
         $flight = Transport::where('id', '=', decrypt($req->id))->first();
-
         $schedules= TransportSchedule::where('transport_id','=',decrypt($req->id))->get();
 
         // $schedules =[];
-
         // foreach( $schedul as $s){
-
         //     $seatinfo = SeatInfo::where('transport_id','=',decrypt($req->id))
         //     ->where()
-
         // }
 
         $booked = SeatInfo::where('transport_id', '=', decrypt($req->id))
@@ -227,6 +223,27 @@ class ManagerController extends Controller
         $available_seat = (($flight->maximum_seat) - (count($booked)));
         //return $flight;
         return view('manager.flightdetails')->with('flight', $flight)->with('schedules',$schedules)->with('available_seat', $available_seat);
+    }
+
+    public function deleteSchedule(Request $req){
+
+        $flight = Transport::where('id', '=', decrypt($req->fid))->first();
+        $schedules= TransportSchedule::where('transport_id','=',decrypt($req->fid))->get();
+
+        $booked = SeatInfo::where('transport_id', '=', decrypt($req->fid))
+            ->where('status', 'Booked')
+            ->get();
+        
+        $available_seat = (($flight->maximum_seat) - (count($booked)));
+        if($available_seat == $flight->maximum_seat){
+            $deleteticket = TransportSchedule::where('id', '=', decrypt($req->id))->delete();
+            session()->flash('msg', 'Flight Schedule cancelled Successfully');
+            return view('manager.flightdetails')->with('flight', $flight)->with('schedules',$schedules)->with('available_seat', $available_seat);
+        }
+        else{
+            session()->flash('msg', 'Flight Schedule cannot be cancelled');
+            return view('manager.flightdetails')->with('flight', $flight)->with('schedules',$schedules)->with('available_seat', $available_seat);
+        }
     }
 
 
@@ -282,6 +299,81 @@ class ManagerController extends Controller
 
 
     }
+    public function flightList(){
+        $flight = Transport::all();
+        $stopage = Stopage::all();
+
+        foreach ($flight as $f) {
+            $occupiedSeats = SeatInfo::where('transport_id', '=', $f->id)
+                ->where('status', '=', 'Booked')
+                ->count();
+            $avilableSeats = $f->maximum_seat - $occupiedSeats;
+            $f->avilableSeats = $avilableSeats;
+        }
+
+        return view('manager.flightList')->with('flights', $flight)->with('stopage', $stopage);
+
+    }
+
+    public function flightSearch(Request $req){
+
+        $stopage = Stopage::all();
+        $transShed = TransportSchedule::where('from_stopage_id', '=', $req->fsid)
+                    ->where('to_stopage_id', '=', $req->tsid)
+                    ->get();
+        $flights = array();
+        foreach ($transShed as $sched) {
+            if ($req->date == date('Y-m-d', strtotime('next ' . $sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day . ' next week'))) {
+                // $f = Transport::where('id', '=', $sched->transport_id)->first();
+
+                // $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->id)
+                //     ->where('status', '=', 'Booked')
+                //     ->count();
+                // $f->avilableSeats = $f->maximum_seat - $occupiedSeats;
+                // $flight = array(
+                //     'id' => $f->id,
+                //     'name' => $f->name,
+                //     'availableSeats' => $avilableSeats,
+                //     'maximum_seat' => $f->maximum_seat
+                // );
+
+                array_push($flights, $sched->transport);
+            }
+        }
+        // return $flights;
+        return view('user.flights')
+            ->with('flights', (object)$flights)->with('stopage', $stopage);
+        if ($transShed) {
+            foreach ($transShed as $ts) {
+                $f = Transport::where('id', '=', $ts->transport_id)->first();
+
+                $occupiedSeats = SeatInfo::where('transport_id', '=', $ts->id)
+                    ->where('status', '=', 'Booked')
+                    ->count();
+                $f->avilableSeats = $f->maximum_seat - $occupiedSeats;
+                // $flight = array(
+                //     'id' => $f->id,
+                //     'name' => $f->name,
+                //     'availableSeats' => $avilableSeats,
+                //     'maximum_seat' => $f->maximum_seat
+                // );
+
+                array_push($flights, $f);
+            }
+            
+            return view('user.flights')->with('flights', (object)$flights)->with('stopage', $stopage);
+        } 
+        else {
+            return "No flight found";
+        }
+
+    }
+
+
+
+
+
+
     public function bookFlight(Request $req){
 
 

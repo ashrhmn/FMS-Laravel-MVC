@@ -184,6 +184,7 @@ class UserController extends Controller
             return "No flight found";
         }
     }
+    
     public function bookTicket()
     {
     }
