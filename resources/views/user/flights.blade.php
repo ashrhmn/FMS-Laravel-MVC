@@ -28,6 +28,11 @@
                 </td>
                 <td><input type="submit" value="Search Flight" /></td>
             </tr>
+            <tr>
+                <td>
+                    <input type="date" name="date">
+                </td>
+            </tr>
         </table>
     </form>
     <table style="width:70%">
@@ -42,10 +47,10 @@
         @foreach ($flights as $p)
             <tr>
                 <td>{{ $p->name }}</td>
-                <td>{{ $p->transportschedules->id}}</td>
+                <td>{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->id }}</td>
                 <td>{{ $p->maximum_seat }}</td>
-                <td>{{ $p->avilableSeats }}</td>
-                <td><a href="{{route('user.bookTicket')}}"></a></td>
+                {{-- <td>{{ $p->avilableSeats }}</td> --}}
+                <td><a href="{{ route('user.bookTicket') }}"></a></td>
             </tr>
         @endforeach
     </table>

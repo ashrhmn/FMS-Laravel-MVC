@@ -21,7 +21,9 @@ use Illuminate\Http\Request;
 |
 */
 //page route start
-Route::get('/',function(){return view('welcome');});
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/admin/home', [PageController::class, 'index'])->name('index');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/register', [PageController::class, 'registation'])->name('register');
@@ -40,27 +42,27 @@ Route::post('edit/{id}', [AdminController::class, 'update'])->name('update.list'
 Route::get('/delete/{id}', [AdminController::class, 'deletelist'])->name('delete');
 
 
-Route::get('/user/viewprofile',[UserController::class,'viewProfile'])->name('user.viewProfile');
-Route::get('/user/editprofile',[UserController::class,'editProfile'])->name('user.editProfile');
-Route::post('/user/editprofile',[UserController::class,'editProfileSubmit'])->name('user.editProfileSubmit');
-Route::get('/user/index',[UserController::class,'index'])->name('index');
-Route::get('/user/flights',[UserController::class,'flights'])->name('user.flights');
-Route::post('/user/flights',[UserController::class,'flightsSearch'])->name('user.flightsSearch');
-Route::get('/user/changepass',[UserController::class,'changepass'])->name('user.changepass');
-Route::post('/user/changepass',[UserController::class,'changepassSubmit'])->name('user.changepassSubmit');
-Route::post('/user/ticketbooking',[UserController::class,'bookTicket'])->name('user.bookTicket');
+Route::get('/user/viewprofile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
+Route::get('/user/editprofile', [UserController::class, 'editProfile'])->name('user.editProfile');
+Route::post('/user/editprofile', [UserController::class, 'editProfileSubmit'])->name('user.editProfileSubmit');
+Route::get('/user/index', [UserController::class, 'index'])->name('index');
+Route::get('/user/flights', [UserController::class, 'flights'])->name('user.flights');
+Route::post('/user/flights', [UserController::class, 'flightsSearch'])->name('user.flightsSearch');
+Route::get('/user/changepass', [UserController::class, 'changepass'])->name('user.changepass');
+Route::post('/user/changepass', [UserController::class, 'changepassSubmit'])->name('user.changepassSubmit');
+Route::post('/user/ticketbooking', [UserController::class, 'bookTicket'])->name('user.bookTicket');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
 
 //page route end
 
 //Manager route Start
-Route::get('/manager',[ManagerController::class,'home'])->name('manager.home');
-Route::get('/manager/profile',[ManagerController::class,'profile'])->name('manager.profile');
-Route::get('/manager/editProfile/{id}',[ManagerController::class,'editProfile'])->name('manager.editProfile');
-Route::get('/manager/changepass/{id}',[ManagerController::class,'changepass'])->name('manager.changepass');
-Route::get('/manager/userlist',[ManagerController::class,'userlist'])->name('manager.userlist');
-Route::get('/manager/userdetails/{id}',[ManagerController::class,'userdetails'])->name('manager.userdetails');
-Route::get('/manager/flightdetails/{id}',[ManagerController::class,'flightdetails'])->name('manager.flightdetails');
+Route::get('/manager', [ManagerController::class, 'home'])->name('manager.home');
+Route::get('/manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
+Route::get('/manager/editProfile/{id}', [ManagerController::class, 'editProfile'])->name('manager.editProfile');
+Route::get('/manager/changepass/{id}', [ManagerController::class, 'changepass'])->name('manager.changepass');
+Route::get('/manager/userlist', [ManagerController::class, 'userlist'])->name('manager.userlist');
+Route::get('/manager/userdetails/{id}', [ManagerController::class, 'userdetails'])->name('manager.userdetails');
+Route::get('/manager/flightdetails/{id}', [ManagerController::class, 'flightdetails'])->name('manager.flightdetails');
 
 
 Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
@@ -124,3 +126,16 @@ Route::get('/auth/logout', [AuthController::class, 'logoutPost'])->name('auth.lo
 Route::get('/404', function () {
     return view('404')->with('msg', 'data');
 })->name('404');
+
+//test
+
+// use DateTime;
+
+Route::get('/test', function () {
+
+    $stopages = App\Models\Stopage::orderBy('route_index', 'ASC')->get();
+    $stoMod = array();
+    for ($i = 0; $i < count($stopages); ++$i) {
+    }
+    return $stopages;
+});
