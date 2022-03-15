@@ -46,6 +46,9 @@ Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name
 Route::get('/managerdelete/{id}', [AdminController::class, 'managerdelete'])->name('managerdelete');
 Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search.submit');
 
+Route::get('/passwordchange', [AdminController::class, 'chnagepassword'])->name('password.change');
+
+
 //admin user end
 
 
