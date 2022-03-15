@@ -31,7 +31,7 @@
                 <td>{{$u->name}}</td>
                 <td><a href="{{route('manager.userdetails',['id'=>encrypt($u->id)])}}" class="btn btn-primary"> {{$u->username}}</td>
                 <td>{{$u->email}}</td>
-                <td><a href="" class="btn btn-warning">Book Flight</td>
+                <td><a href="{{route('manager.bookFlight',['id'=>encrypt($u->id)])}}" class="btn btn-warning">Book Flight</td>
             </tr>
         @endforeach
     </table>

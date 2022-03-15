@@ -86,6 +86,7 @@ Route::get('/manager/creatorFlightList/{id}', [ManagerController::class, 'creato
 Route::get('/manager/bookFlight/{id}', [ManagerController::class, 'bookFlight'])->name('manager.bookFlight');
 Route::get('/manager/deleteSchedule/{id}/{fid}', [ManagerController::class, 'deleteSchedule'])->name('manager.deleteSchedule');
 Route::get('/manager/flightList', [ManagerController::class, 'flightList'])->name('manager.flightList');
+Route::get('/manager/deleteFlightSchedule/{id}/{fid}', [ManagerController::class, 'deleteFlightSchedule'])->name('manager.deleteFlightSchedule');
 
 
 Route::post('/manager/editProfile', [ManagerController::class, 'editProfileSubmit'])->name('manager.editProfileSubmit');

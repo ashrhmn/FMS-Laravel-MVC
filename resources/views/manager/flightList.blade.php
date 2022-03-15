@@ -43,25 +43,34 @@
     </table>
 </form>
 
+@if(Session::has('msg'))
+    <p class="alert alert-info">{{ Session::get('msg') }}</p>
+@endif
 
-
-    <table style="width:70%">
+@if(count($schedules)> 0)
+    <table class="table table-bordered">
         <tr>
             <th>Name</th>
             <th>From</th>
             <th>Destination</th>
+            <th>Day</th>
             <th>Maximum Seats</th>
             <th>Available seats</th>
             <th>Action</th>
         </tr>
-        @foreach ($flights as $p)
+        @foreach ($schedules as $s)
             <tr>
-                <td>{{ $p->name }}</td>
-                <td>{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->id }}</td>
-                <td>{{ $p->maximum_seat }}</td>
-                {{-- <td>{{ $p->avilableSeats }}</td> --}}
-                <td><a href="{{ route('user.bookTicket') }}"></a></td>
+                <td>{{$s->flightName}}</td>
+                <td>{{$s->fromstopage}}, {{$s->fromstopagecity}}, {{$s->fromstopagecountry}}</td>
+                <td>{{$s->tostopage}}, {{$s->tostopagecity}}, {{$s->tostopagecountry}}</td>
+                <td>{{$s->day}}</td>
+                <td>{{$s->maximumSeat}}</td>
+                <td>{{$s->avilableSeats}}</td>
+                <td><a href="{{route('manager.deleteFlightSchedule',['id'=>encrypt($s->id),'fid'=>encrypt($s->flightId)])}}" class="btn btn-danger">Delete</a></td>
             </tr>
         @endforeach
     </table>
+    @else
+        <h6>No Available Flights</h6>
+    @endif
 @endsection
