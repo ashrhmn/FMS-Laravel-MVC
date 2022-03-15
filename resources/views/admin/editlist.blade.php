@@ -6,7 +6,7 @@
 
 <table>
 
- <form action="edit" method="POST">
+ <form action="{{route('update.list')}}" method="POST">
     {{@csrf_field()}}
 
     

@@ -301,7 +301,7 @@ class ManagerController extends Controller
 
     }
     public function flightList(){
-        $flight = Transport::all();
+        //$flight = Transport::all();
         $stopage = Stopage::all();
         $schedules = TransportSchedule::all();
 
@@ -313,19 +313,19 @@ class ManagerController extends Controller
             $avilableSeats = $f->maximum_seat - $occupiedSeats;
             $s->avilableSeats = $avilableSeats;
 
-            $s->flightName = $f->name;
-            $s->flightId = $f->id;
-            $s->maximumSeat= $f->maximum_seat;
-            $from = Stopage::where('id','=',$s->from_stopage_id)->first();
-            $fromcity = City::where('id','=',$from->city_id)->first();
-            $s->fromstopagee = $from->name;
-            $s->fromstopagecity = $fromcity->name;
-            $s->fromstopagecountry = $fromcity->country;
-            $to = Stopage::where('id','=',$s->to_stopage_id)->first();
-            $tocity = City::where('id','=',$to->city_id)->first();
-            $s->tostopagee = $to->name;
-            $s->tostopagecity = $tocity->name;
-            $s->tostopagecountry = $tocity->country;
+            // $s->flightName = $f->name;
+            // $s->flightId = $f->id;
+            // $s->maximumSeat= $f->maximum_seat;
+            // $from = Stopage::where('id','=',$s->from_stopage_id)->first();
+            // $fromcity = City::where('id','=',$from->city_id)->first();
+            // $s->fromstopagee = $from->name;
+            // $s->fromstopagecity = $fromcity->name;
+            // $s->fromstopagecountry = $fromcity->country;
+            // $to = Stopage::where('id','=',$s->to_stopage_id)->first();
+            // $tocity = City::where('id','=',$to->city_id)->first();
+            // $s->tostopagee = $to->name;
+            // $s->tostopagecity = $tocity->name;
+            // $s->tostopagecountry = $tocity->country;
 
         }
 
@@ -339,32 +339,21 @@ class ManagerController extends Controller
         if($req->fsid != "0" && $req->tsid == "0" && $req->date != ""){
             $transShed = TransportSchedule::where('from_stopage_id', '=', $req->fsid)
                     ->get();
-
+            $schedules = [];
             foreach ($transShed as $sched) {
                 if ($req->date == date('Y-m-d', strtotime('next ' . $sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day . ' next week'))) {
-                        $f = Transport::where('id', '=', $sched->transport_id)->first();
-                    $sched->flightName = $f->name;
-                    $sched->maximumSeat= $f->maximum_seat;
-    
+                        
                         $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->transport_id)
                             ->where('status', '=', 'Booked')
                             ->count();
+                        $f = Transport::where('id', '=', $sched->transport_id)->first();    
                         $sched->avilableSeats = $f->maximum_seat - $occupiedSeats;
-    
-                        $from = Stopage::where('id','=',$sched->from_stopage_id)->first();
-                        $fromcity = City::where('id','=',$from->city_id)->first();
-                        $sched->fromstopagee = $from->name;
-                        $sched->fromstopagecity = $fromcity->name;
-                        $sched->fromstopagecountry = $fromcity->country;
-                        $to = Stopage::where('id','=',$sched->to_stopage_id)->first();
-                        $tocity = City::where('id','=',$to->city_id)->first();
-                        $sched->tostopagee = $to->name;
-                        $sched->tostopagecity = $tocity->name;
-                        $sched->tostopagecountry = $tocity->country;
-                        
+
+                    $schedules[] = $sched;
                 }
+                
             }
-            return view('manager.flightList')->with('schedules', $transShed)->with('stopage', $stopage);
+            return view('manager.flightList')->with('schedules', $schedules)->with('stopage', $stopage);
 
 
 
@@ -374,32 +363,21 @@ class ManagerController extends Controller
             $transShed = TransportSchedule::where('from_stopage_id', '=', $req->fsid)
                     ->where('to_stopage_id', '=', $req->tsid)
                     ->get();
-
+            $schedules = [];
             foreach ($transShed as $sched) {
                 if ($req->date == date('Y-m-d', strtotime('next ' . $sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day . ' next week'))) {
-                        $f = Transport::where('id', '=', $sched->transport_id)->first();
-                    $sched->flightName = $f->name;
-                    $sched->maximumSeat= $f->maximum_seat;
-    
-                        $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->transport_id)
-                            ->where('status', '=', 'Booked')
-                            ->count();
-                        $sched->avilableSeats = $f->maximum_seat - $occupiedSeats;
-    
-                        $from = Stopage::where('id','=',$sched->from_stopage_id)->first();
-                        $fromcity = City::where('id','=',$from->city_id)->first();
-                        $sched->fromstopagee = $from->name;
-                        $sched->fromstopagecity = $fromcity->name;
-                        $sched->fromstopagecountry = $fromcity->country;
-                        $to = Stopage::where('id','=',$sched->to_stopage_id)->first();
-                        $tocity = City::where('id','=',$to->city_id)->first();
-                        $sched->tostopagee = $to->name;
-                        $sched->tostopagecity = $tocity->name;
-                        $sched->tostopagecountry = $tocity->country;
                         
+                    $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->transport_id)
+                        ->where('status', '=', 'Booked')
+                        ->count();
+                    $f = Transport::where('id', '=', $sched->transport_id)->first();
+                    $sched->avilableSeats = $f->maximum_seat - $occupiedSeats;
+                    $schedules[] = $sched;    
                 }
+
+
             }
-            return view('manager.flightList')->with('schedules', $transShed)->with('stopage', $stopage);
+            return view('manager.flightList')->with('schedules', $schedules)->with('stopage', $stopage);
 
 
         }
@@ -407,32 +385,19 @@ class ManagerController extends Controller
             $transShed = TransportSchedule::where('to_stopage_id', '=', $req->tsid)
                     ->get();
 
-
+            $schedules = [];
             foreach ($transShed as $sched) {
                 if ($req->date == date('Y-m-d', strtotime('next ' . $sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day . ' next week'))) {
-                        $f = Transport::where('id', '=', $sched->transport_id)->first();
-                    $sched->flightName = $f->name;
-                    $sched->maximumSeat= $f->maximum_seat;
-    
+                       
                         $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->transport_id)
                             ->where('status', '=', 'Booked')
                             ->count();
+                        $f = Transport::where('id', '=', $sched->transport_id)->first();
                         $sched->avilableSeats = $f->maximum_seat - $occupiedSeats;
-    
-                        $from = Stopage::where('id','=',$sched->from_stopage_id)->first();
-                        $fromcity = City::where('id','=',$from->city_id)->first();
-                        $sched->fromstopagee = $from->name;
-                        $sched->fromstopagecity = $fromcity->name;
-                        $sched->fromstopagecountry = $fromcity->country;
-                        $to = Stopage::where('id','=',$sched->to_stopage_id)->first();
-                        $tocity = City::where('id','=',$to->city_id)->first();
-                        $sched->tostopagee = $to->name;
-                        $sched->tostopagecity = $tocity->name;
-                        $sched->tostopagecountry = $tocity->country;
-                        
+                    $schedules[] = $sched;     
                 }
             }
-            return view('manager.flightList')->with('schedules', $transShed)->with('stopage', $stopage);
+            return view('manager.flightList')->with('schedules', $schedules)->with('stopage', $stopage);
         }
         else {
             $transShed = TransportSchedule::all();
@@ -444,19 +409,7 @@ class ManagerController extends Controller
                 $avilableSeats = $f->maximum_seat - $occupiedSeats;
                 $s->avilableSeats = $avilableSeats;
     
-                $s->flightName = $f->name;
-                $s->flightId = $f->id;
-                $s->maximumSeat= $f->maximum_seat;
-                $from = Stopage::where('id','=',$s->from_stopage_id)->first();
-                $fromcity = City::where('id','=',$from->city_id)->first();
-                $s->fromstopagee = $from->name;
-                $s->fromstopagecity = $fromcity->name;
-                $s->fromstopagecountry = $fromcity->country;
-                $to = Stopage::where('id','=',$s->to_stopage_id)->first();
-                $tocity = City::where('id','=',$to->city_id)->first();
-                $s->tostopagee = $to->name;
-                $s->tostopagecity = $tocity->name;
-                $s->tostopagecountry = $tocity->country;
+               
     
             }
     
@@ -493,15 +446,12 @@ class ManagerController extends Controller
     public function deleteFlightSchedule(Request $req){
 
         $flightt = Transport::where('id', '=', decrypt($req->fid))->first();
-        //$schedules= TransportSchedule::where('transport_id','=',decrypt($req->fid))->get();
 
         $booked = SeatInfo::where('transport_id', '=', decrypt($req->fid))
             ->where('status', 'Booked')
             ->get();
         $available_seat = (($flightt->maximum_seat) - (count($booked)));
 
-
-        $flight = Transport::all();
         $stopage = Stopage::all();
         $schedules = TransportSchedule::all();
 
@@ -512,20 +462,6 @@ class ManagerController extends Controller
             $f = Transport::where('id', '=', $s->transport_id)->first();
             $avilableSeats = $f->maximum_seat - $occupiedSeats;
             $s->avilableSeats = $avilableSeats;
-
-            $s->flightName = $f->name;
-            $s->flightId = $f->id;
-            $s->maximumSeat= $f->maximum_seat;
-            $from = Stopage::where('id','=',$s->from_stopage_id)->first();
-            $fromcity = City::where('id','=',$from->city_id)->first();
-            $s->fromstopage = $from->name;
-            $s->fromstopagecity = $fromcity->name;
-            $s->fromstopagecountry = $fromcity->country;
-            $to = Stopage::where('id','=',$s->to_stopage_id)->first();
-            $tocity = City::where('id','=',$to->city_id)->first();
-            $s->tostopage = $to->name;
-            $s->tostopagecity = $tocity->name;
-            $s->tostopagecountry = $tocity->country;
 
         }
         

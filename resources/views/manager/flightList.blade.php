@@ -60,13 +60,13 @@
         </tr>
         @foreach ($schedules as $s)
             <tr>
-                <td>{{$s->flightName}}</td>
-                <td>{{$s->fromstopagee}}, {{$s->fromstopagecity}}, {{$s->fromstopagecountry}}</td>
-                <td>{{$s->tostopagee}}, {{$s->tostopagecity}}, {{$s->tostopagecountry}}</td>
+                <td>{{$s->transport->name}}</td>
+                <td>{{$s->fromstopage->name}}, {{$s->fromstopage->city->name}}, {{$s->fromstopage->city->country}}</td>
+                <td>{{$s->tostopage->name}}, {{$s->tostopage->city->name}}, {{$s->tostopage->city->country}}</td>
                 <td>{{$s->day}}</td>
-                <td>{{$s->maximumSeat}}</td>
+                <td>{{$s->transport->maximum_seat}}</td>
                 <td>{{$s->avilableSeats}}</td>
-                <td><a href="{{route('manager.deleteFlightSchedule',['id'=>encrypt($s->id),'fid'=>encrypt($s->flightId)])}}" class="btn btn-danger">Delete</a></td>
+                <td><a href="{{route('manager.deleteFlightSchedule',['id'=>encrypt($s->id),'fid'=>encrypt($s->transport->id)])}}" class="btn btn-danger">Delete</a></td>
             </tr>
         @endforeach
     </table>

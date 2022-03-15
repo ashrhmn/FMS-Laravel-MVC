@@ -39,7 +39,7 @@ Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index'
 Route::get('/userlist', [AdminController::class, 'userlist'])->name('user.list');
 Route::get('/managerlist', [AdminController::class, 'managerlist'])->name('manager.list');
 Route::get('edit/{id}', [AdminController::class, 'editlist']);
-Route::post('edit/{id}', [AdminController::class, 'update'])->name('update.list');
+Route::post('edit', [AdminController::class, 'update'])->name('update.list');
 Route::get('/delete/{id}', [AdminController::class, 'deletelist'])->name('delete');
 Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
 Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name('managerupdate');
