@@ -116,11 +116,6 @@ class AdminController extends Controller
         return redirect()->route('manager.list')->with('data1', $data1);
     }
 
-
-
-
-
-
     public function searchsubmit(Request $req)
     {
 
@@ -130,5 +125,13 @@ class AdminController extends Controller
             ->get();
 
         return view('admin.userlist')->with('user', $user);
+    }
+
+
+
+
+    public function chnagepassword(){
+
+        return view ('admin.passwordchange');
     }
 }

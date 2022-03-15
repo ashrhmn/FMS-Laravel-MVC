@@ -61,8 +61,8 @@
         @foreach ($schedules as $s)
             <tr>
                 <td>{{$s->flightName}}</td>
-                <td>{{$s->fromstopage}}, {{$s->fromstopagecity}}, {{$s->fromstopagecountry}}</td>
-                <td>{{$s->tostopage}}, {{$s->tostopagecity}}, {{$s->tostopagecountry}}</td>
+                <td>{{$s->fromstopagee}}, {{$s->fromstopagecity}}, {{$s->fromstopagecountry}}</td>
+                <td>{{$s->tostopagee}}, {{$s->tostopagecity}}, {{$s->tostopagecountry}}</td>
                 <td>{{$s->day}}</td>
                 <td>{{$s->maximumSeat}}</td>
                 <td>{{$s->avilableSeats}}</td>

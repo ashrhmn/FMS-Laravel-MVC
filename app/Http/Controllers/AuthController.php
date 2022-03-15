@@ -31,7 +31,7 @@ class AuthController extends Controller
                     break;
 
                 case 'Admin':
-                    return redirect()->route('index');
+                    return redirect()->route('admin.index');
                     break;
 
                 default:

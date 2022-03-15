@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin/home', [PageController::class, 'index'])->name('index');
+//Route::get('/admin/home', [PageController::class, 'index'])->name('index');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/register', [PageController::class, 'registation'])->name('register');
 Route::get('/logout', [PageController::class, 'logout'])->name('logout');
@@ -35,7 +35,7 @@ Route::post('/login', [PageController::class, 'loginsubmit'])->name('login.submi
 
 
 //Admin route Start
-Route::get('/admin/home', [AdminController::class, 'index'])->name('index');
+Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/userlist', [AdminController::class, 'userlist'])->name('user.list');
 Route::get('/managerlist', [AdminController::class, 'managerlist'])->name('manager.list');
 Route::get('edit/{id}', [AdminController::class, 'editlist']);
@@ -45,6 +45,9 @@ Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
 Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name('managerupdate');
 Route::get('/managerdelete/{id}', [AdminController::class, 'managerdelete'])->name('managerdelete');
 Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search.submit');
+
+Route::get('/passwordchange', [AdminController::class, 'chnagepassword'])->name('password.change');
+
 
 //admin user end
 
