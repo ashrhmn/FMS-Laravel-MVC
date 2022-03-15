@@ -65,7 +65,10 @@ class AdminController extends Controller
         $var->phone = $req->phone;
         $var->email = $req->email;
         $var->address = $req->address;
+        $var->role = $req->role;
         $var->save();
+
+
         return redirect()->route('user.list');
     }
 
