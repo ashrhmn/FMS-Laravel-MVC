@@ -36,7 +36,7 @@
                     No Available Seat
                 @endif
             </td> -->
-            <td><a href="{{route('manager.deleteSchedule',['id'=>encrypt($s->id),'fid'=>encrypt($flight->id)])}}" class="btn btn-success">Delete</a></td>
+            <td><a href="{{route('manager.deleteSchedule',['id'=>encrypt($s->id),'fid'=>encrypt($flight->id)])}}" class="btn btn-danger">Delete</a></td>
         </tr>
         @endforeach
 
