@@ -65,7 +65,10 @@ class AdminController extends Controller
         $var->phone = $req->phone;
         $var->email = $req->email;
         $var->address = $req->address;
+        $var->role = $req->role;
         $var->save();
+
+
         return redirect()->route('user.list');
     }
 
@@ -116,11 +119,6 @@ class AdminController extends Controller
         return redirect()->route('manager.list')->with('data1', $data1);
     }
 
-
-
-
-
-
     public function searchsubmit(Request $req)
     {
 
@@ -130,5 +128,13 @@ class AdminController extends Controller
             ->get();
 
         return view('admin.userlist')->with('user', $user);
+    }
+
+
+
+
+    public function chnagepassword(){
+
+        return view ('admin.passwordchange');
     }
 }

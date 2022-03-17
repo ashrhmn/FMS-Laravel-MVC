@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin/home', [PageController::class, 'index'])->name('index');
+//Route::get('/admin/home', [PageController::class, 'index'])->name('index');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/register', [PageController::class, 'registation'])->name('register');
 Route::get('/logout', [PageController::class, 'logout'])->name('logout');
@@ -32,15 +32,29 @@ Route::get('/logout', [PageController::class, 'logout'])->name('logout');
 Route::post('/register', [PageController::class, 'registersubmit'])->name('register.submit');
 Route::post('/login', [PageController::class, 'loginsubmit'])->name('login.submit');
 
-//admin user
-Route::get('/admin/home', [AdminController::class, 'index'])->name('index');
+
+
+//Admin route Start
+Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/userlist', [AdminController::class, 'userlist'])->name('user.list');
 Route::get('/managerlist', [AdminController::class, 'managerlist'])->name('manager.list');
-
 Route::get('edit/{id}', [AdminController::class, 'editlist']);
-Route::post('edit/{id}', [AdminController::class, 'update'])->name('update.list');
+Route::post('edit', [AdminController::class, 'update'])->name('update.list');
 Route::get('/delete/{id}', [AdminController::class, 'deletelist'])->name('delete');
+Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
+Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name('managerupdate');
+Route::get('/managerdelete/{id}', [AdminController::class, 'managerdelete'])->name('managerdelete');
+Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search.submit');
 
+Route::get('/passwordchange', [AdminController::class, 'chnagepassword'])->name('password.change');
+
+
+//admin user end
+
+
+
+
+//User route Start
 
 Route::get('/user/viewprofile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 Route::get('/user/editprofile', [UserController::class, 'editProfile'])->name('user.editProfile');
@@ -56,25 +70,8 @@ Route::get('/user/tickets', [UserController::class, 'showTickets'])->name('user.
 Route::get('/user/cancelticket', [UserController::class, 'cancelTicket'])->name('user.cancelTicket');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
 
-//page route end
 
-//Manager route Start
-Route::get('/manager', [ManagerController::class, 'home'])->name('manager.home');
-Route::get('/manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
-Route::get('/manager/editProfile/{id}', [ManagerController::class, 'editProfile'])->name('manager.editProfile');
-Route::get('/manager/changepass/{id}', [ManagerController::class, 'changepass'])->name('manager.changepass');
-Route::get('/manager/userlist', [ManagerController::class, 'userlist'])->name('manager.userlist');
-Route::get('/manager/userdetails/{id}', [ManagerController::class, 'userdetails'])->name('manager.userdetails');
-Route::get('/manager/flightdetails/{id}', [ManagerController::class, 'flightdetails'])->name('manager.flightdetails');
-
-
-Route::get('editmanager/{id}', [AdminController::class, 'managereditlist']);
-Route::post('editmanager/{id}', [AdminController::class, 'managerupdate'])->name('managerupdate');
-Route::get('/managerdelete/{id}', [AdminController::class, 'managerdelete'])->name('managerdelete');
-
-Route::post('/userlist', [AdminController::class, 'searchsubmit'])->name('search.submit');
-
-//admin user end
+//User route end
 
 
 
@@ -91,12 +88,19 @@ Route::get('/manager/flightdetails/{id}', [ManagerController::class, 'flightdeta
 Route::get('/manager/cancelticket/{id}/{uid}', [ManagerController::class, 'cancelticket'])->name('manager.cancelticket');
 Route::get('/manager/searchuserlist', [ManagerController::class, 'searchuserlist'])->name('manager.searchuserlist');
 Route::get('/manager/flightManagerList', [ManagerController::class, 'flightManagerList'])->name('manager.flightManagerList');
+Route::get('/manager/creatorFlightList/{id}', [ManagerController::class, 'creatorFlightList'])->name('manager.creatorFlightList');
+Route::get('/manager/bookFlight/{id}', [ManagerController::class, 'bookFlight'])->name('manager.bookFlight');
+Route::get('/manager/deleteSchedule/{id}/{fid}', [ManagerController::class, 'deleteSchedule'])->name('manager.deleteSchedule');
+Route::get('/manager/flightList', [ManagerController::class, 'flightList'])->name('manager.flightList');
+Route::get('/manager/deleteFlightSchedule/{id}/{fid}', [ManagerController::class, 'deleteFlightSchedule'])->name('manager.deleteFlightSchedule');
+
 
 Route::post('/manager/editProfile', [ManagerController::class, 'editProfileSubmit'])->name('manager.editProfileSubmit');
 Route::post('/manager/changepass', [ManagerController::class, 'changepassSubmit'])->name('manager.changepassSubmit');
 Route::post('/manager/userlist', [ManagerController::class, 'userlistSearch'])->name('manager.userlistSearch');
 Route::post('/manager/searchuserlist', [ManagerController::class, 'searchuserlistsubmit'])->name('manager.searchuserlistsubmit');
-Route::post('/manager/flightManagerSearch', [ManagerController::class, 'flightManagerSearch'])->name('manager.flightManagerSearch');
+Route::post('/manager/flightManagerList', [ManagerController::class, 'flightManagerSearch'])->name('manager.flightManagerSearch');
+Route::post('/manager/flightList', [ManagerController::class, 'flightSearch'])->name('manager.flightSearch');
 
 
 //Manager route End 

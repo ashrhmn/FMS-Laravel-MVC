@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <td><a href="{{route('manager.searchuserlist')}}" class="btn btn-success" >Search Customer</a></td>
-        <td><a href="{{route('manager.userlist')}}" class="btn btn-danger" >Search Flights</a></td>
+        <td><a href="{{route('manager.flightList')}}" class="btn btn-danger" >Search Flights</a></td>
     </tr>
 </table>
 

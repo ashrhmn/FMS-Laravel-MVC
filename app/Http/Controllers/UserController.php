@@ -233,7 +233,10 @@ class UserController extends Controller
        ->with('tickets', $tickets);
     
     }
-    public function cancelTicket(Request $req)
+
+    
+    public function bookTicket()
+
     {
         $deleteticket = PurchasedTicket::where('id', '=', decrypt($req->id))->delete();
         session()->flash('msg', 'Ticket Cancelled Successfully');
