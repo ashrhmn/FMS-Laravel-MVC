@@ -26,31 +26,35 @@
                         @endforeach
                     </select>
                 </td>
+            </tr>
+                <tr>
+                    <td>
+                        <input type="date" name="date">
+                    </td>
+                </tr>
                 <td><input type="submit" value="Search Flight" /></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="date" name="date">
-                </td>
-            </tr>
+            
         </table>
     </form>
-    <table style="width:70%">
+    <table class="table table-striped">
         <tr>
             <th>Name</th>
             <th>From</th>
             <th>Destination</th>
             <th>Maximum Seats</th>
             <th>Available seats</th>
-            <th>Action</th>
+            <th>Go to</th>
         </tr>
         @foreach ($flights as $p)
             <tr>
+                @if(count($p->transportschedules))
                 <td>{{ $p->name }}</td>
-                <td>{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->id }}</td>
+                <td>{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->fromstopage->name}},{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->fromstopage->city->name}}</td>
+                <td>{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->tostopage->name }},{{ count($p->transportschedules) == 0 ? '' : $p->transportschedules[0]->tostopage->city->name }}</td>
                 <td>{{ $p->maximum_seat }}</td>
-                {{-- <td>{{ $p->avilableSeats }}</td> --}}
-                <td><a href="{{ route('user.bookTicket') }}"></a></td>
+                <td>{{ $p->availableSeats }}</td>
+                <td><a class="btn btn-info" href="{{ route('user.bookTicket',['id'=>encrypt($p->id)]) }}">Book</a></td>
+                @endif
             </tr>
         @endforeach
     </table>

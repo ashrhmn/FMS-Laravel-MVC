@@ -9,6 +9,7 @@
     <table>
         <tr>
             <input type="hidden" name="uname" value="{{$user->username}}">
+            <input type="hidden" name="id" value="{{$user->id}}">
             <th>Old Password: </th>
             <td>
             <input type="password" name="oldpass"  />

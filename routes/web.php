@@ -59,12 +59,15 @@ Route::get('/passwordchange', [AdminController::class, 'chnagepassword'])->name(
 Route::get('/user/viewprofile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 Route::get('/user/editprofile', [UserController::class, 'editProfile'])->name('user.editProfile');
 Route::post('/user/editprofile', [UserController::class, 'editProfileSubmit'])->name('user.editProfileSubmit');
-Route::get('/user/index', [UserController::class, 'index'])->name('index');
+Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
 Route::get('/user/flights', [UserController::class, 'flights'])->name('user.flights');
 Route::post('/user/flights', [UserController::class, 'flightsSearch'])->name('user.flightsSearch');
 Route::get('/user/changepass', [UserController::class, 'changepass'])->name('user.changepass');
 Route::post('/user/changepass', [UserController::class, 'changepassSubmit'])->name('user.changepassSubmit');
-Route::post('/user/ticketbooking', [UserController::class, 'bookTicket'])->name('user.bookTicket');
+Route::get('/user/ticketbooking', [UserController::class, 'bookTicket'])->name('user.bookTicket');
+Route::post('/user/ticketbooking', [UserController::class, 'bookTicketSubmit'])->name('user.bookTicketSubmit');
+Route::get('/user/tickets', [UserController::class, 'showTickets'])->name('user.showTickets');
+Route::get('/user/cancelticket', [UserController::class, 'cancelTicket'])->name('user.cancelTicket');
 //Route::post('/user/index',[UserController::class,'index'])->name('indexfs');
 
 
