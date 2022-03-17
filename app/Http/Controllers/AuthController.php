@@ -18,7 +18,7 @@ class AuthController extends Controller
             switch ($userToken->user->role) {
                 case 'User':
                     //return redirect()->route('index');
-                    return "Redirect to user dashboard";
+                    return redirect()->route('user.index');
                     break;
 
                 case 'Manager':

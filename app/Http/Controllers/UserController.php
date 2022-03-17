@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Transport;
 use App\Models\SeatInfo;
-
+use App\Models\Token;
+use App\Models\PurchasedTicket;
 use App\Models\TransportSchedule;
 use App\Models\Stopage;
-
-
+use Illuminate\Console\Scheduling\Schedule;
 
 class UserController extends Controller
 {
@@ -21,30 +21,26 @@ class UserController extends Controller
 
     public function index(Request $req)
     {
-        if ($req->search != null) {
-            $flight = transport::wherehas('fromstopage', function ($q) {
-                $q->where('city_id', 2);
-            })->get();
-            return view('user.index')
-                ->with('flight', $flight);
-        }
-        $flight = transport::all();
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        $user = User::where('id', '=', $tokenUser->user_id)->first();
         return view('user.index')
-            ->with('flight', $flight);
+        ->with('user', $user);
     }
-    public function viewProfile()
+    public function viewProfile(Request $req)
     {
-
-        $user = User::where('username', '=', 'afridi')->first();
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        $user = User::where('id', '=', $tokenUser->user_id)->first();
 
         return view('user.viewProfile')
             ->with('user', $user);
     }
-    public function editProfile()
+    public function editProfile(Request $req)
     {
-
-        $user = User::where('username', '=', 'afridi')->first();
-
+        
+        $user = User::where('id', '=', decrypt($req->id))->first();
+        //return $req->id;
         return view('user.editProfile')
             ->with('user', $user);
     }
@@ -61,7 +57,7 @@ class UserController extends Controller
             ]
 
         );
-        $user = User::where('username', '=', 'afridi')->first();
+        $user = User::where('id', '=', $req->id)->first();
 
 
         $user->name = $req->name;
@@ -71,6 +67,7 @@ class UserController extends Controller
         $user->email = $req->email;
         $user->phone = $req->phone;
         $user->save();
+        session()->flash('msg', 'Profile Updated Successfully');
         return redirect()->route('user.viewProfile');
     }
 
@@ -86,9 +83,9 @@ class UserController extends Controller
     {
         $req->validate(
             [
-                'oldpass' => 'min:4',
-                'password' => 'min:4',
-                'conpass' => 'min:4|same:password'
+                'oldpass' => 'min:6',
+                'password' => 'min:6',
+                'conpass' => 'min:6|same:password'
             ]
 
         );
@@ -101,8 +98,8 @@ class UserController extends Controller
             $user = User::where('username', $req->uname)
                 ->update(['password' => md5($req->password)]);
 
-            $msg = "Password Changed Successfully";
-            return redirect()->route('manager.profile');
+                session()->flash('msg', 'Password Changed Successfully');
+            return redirect()->route('user.viewProfile');
         } else {
             $msg = "Wrong Old Password";
 
@@ -110,7 +107,7 @@ class UserController extends Controller
                 ->select('id', 'password')
                 ->first();
 
-            return  redirect()->route('manager.changepass', ['id' => encrypt($user->id)]);
+            return  redirect()->route('user.changepass', ['id' => encrypt($user->id)]);
         }
     }
     public function flights()
@@ -120,10 +117,9 @@ class UserController extends Controller
 
         foreach ($flight as $f) {
             $occupiedSeats = SeatInfo::where('transport_id', '=', $f->id)
-                ->where('status', '=', 'Booked')
                 ->count();
             $avilableSeats = $f->maximum_seat - $occupiedSeats;
-            $f->avilableSeats = $avilableSeats;
+            $f->availableSeats = $avilableSeats;
         }
 
         // return $flight;
@@ -140,18 +136,10 @@ class UserController extends Controller
         $flights = array();
         foreach ($transShed as $sched) {
             if ($req->date == date('Y-m-d', strtotime('next ' . $sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day)) || $req->date == date('Y-m-d', strtotime($sched->day . ' next week'))) {
-                // $f = Transport::where('id', '=', $sched->transport_id)->first();
+                
+                $occupiedSeats = SeatInfo::where('transport_id',$sched->transport_id)->get();
 
-                // $occupiedSeats = SeatInfo::where('transport_id', '=', $sched->id)
-                //     ->where('status', '=', 'Booked')
-                //     ->count();
-                // $f->avilableSeats = $f->maximum_seat - $occupiedSeats;
-                // $flight = array(
-                //     'id' => $f->id,
-                //     'name' => $f->name,
-                //     'availableSeats' => $avilableSeats,
-                //     'maximum_seat' => $f->maximum_seat
-                // );
+                $sched->transport->availableSeats = $sched->transport->maximum_seat - count($occupiedSeats);
 
                 array_push($flights, $sched->transport);
             }
@@ -159,32 +147,97 @@ class UserController extends Controller
         // return $flights;
         return view('user.flights')
             ->with('flights', (object)$flights)->with('stopage', $stopage);
-        if ($transShed) {
-            foreach ($transShed as $ts) {
-                $f = Transport::where('id', '=', $ts->transport_id)->first();
+        // if ($transShed) {
+        //     foreach ($transShed as $ts) {
+        //         $f = Transport::where('id', '=', $ts->transport_id)->first();
 
-                $occupiedSeats = SeatInfo::where('transport_id', '=', $ts->id)
-                    ->where('status', '=', 'Booked')
-                    ->count();
-                $f->avilableSeats = $f->maximum_seat - $occupiedSeats;
-                // $flight = array(
-                //     'id' => $f->id,
-                //     'name' => $f->name,
-                //     'availableSeats' => $avilableSeats,
-                //     'maximum_seat' => $f->maximum_seat
-                // );
+        //         $occupiedSeats = SeatInfo::where('transport_id', '=', $ts->id)
+        //             ->where('status', '=', 'Booked')
+        //             ->count();
+        //         $f->avilableSeats = $f->maximum_seat - $occupiedSeats;
+        //         // $flight = array(
+        //         //     'id' => $f->id,
+        //         //     'name' => $f->name,
+        //         //     'availableSeats' => $avilableSeats,
+        //         //     'maximum_seat' => $f->maximum_seat
+        //         // );
 
-                array_push($flights, $f);
-            }
+        //         array_push($flights, $f);
+        //     }
 
-            // return $flights;
-            return view('user.flights')
-                ->with('flights', (object)$flights)->with('stopage', $stopage);
-        } else {
-            return "No flight found";
-        }
+        //     //return $flights;
+        //     return view('user.flights')
+        //         ->with('flights', (object)$flights)->with('stopage', $stopage);
+        // } else {
+        //     return "No flight found";
+        // }
     }
-    public function bookTicket()
+    public function bookTicket(Request $req)
     {
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        $uid = $tokenUser->user_id;
+        $schedule = TransportSchedule::where('transport_id','=', decrypt($req->id))->first();
+        //return $transport;
+        $fromrootfare = $schedule->fromstopage->fare_from_root;
+        
+        $torootfare = $schedule->tostopage->fare_from_root;
+        $basefair = abs(($torootfare - $fromrootfare)*4);
+        //return $basefair;
+        $pt = array
+        (
+            "fromid"=> $schedule->fromstopage->id,
+            "toid"=>$schedule->tostopage->id,
+            "fromname"=>$schedule->fromstopage->name,
+            "toname"=>$schedule->tostopage->name,
+            "uid"=>$uid,
+            "fid"=>decrypt($req->id),
+            "fair"=>$basefair
+        );
+       $pt = (object)$pt;
+       //return $pt;
+       return view('user.bookticket')
+       ->with('pt', $pt);
+        
+    }
+    public function bookTicketSubmit(Request $req)
+    {
+        $purt = new PurchasedTicket();
+        $purt->from_stopage_id = $req->fromid;
+        $purt->to_stopage_id = $req->toid;
+        $purt->purchased_by = $req->uid;
+        $purt->save();
+        $ticketid =  $purt->id;
+        //$ticketid = TransportSchedule::where('purchased_by','=',$req->uid)->first();
+        $si = new SeatInfo();
+        //$si->start_time = "2022-03-15";
+        $si->seat_no = 101;
+        $si->ticket_id = $ticketid;
+        $si->transport_id = $req->fid;
+        $si->age_class = "adult";
+        $si->seat_class = "Business";
+        $si->status = "Booked";
+        $si->save();
+
+        session()->flash('msg', 'Ticket purchsed Successfully');
+            return redirect()->route('user.showTickets');
+    }
+    public function showTickets(Request $req)
+    {
+        $token = $req->session()->get('token');
+        $tokenUser = Token::where('value', $token)->first();
+        $uid = $tokenUser->user_id;
+        $tickets = PurchasedTicket::where('purchased_by','=',$uid)->get();
+
+        return view('user.showTickets')
+       ->with('tickets', $tickets);
+    
+    }
+    public function cancelTicket(Request $req)
+    {
+        $deleteticket = PurchasedTicket::where('id', '=', decrypt($req->id))->delete();
+        session()->flash('msg', 'Ticket Cancelled Successfully');
+        return redirect()->route('user.showTickets');
+    
     }
 }
